@@ -41,7 +41,7 @@ export default async function Page() {
             </main>
           </div>
         </CardContent>
-        <CardFooter className="flex items-center justify-between border-t border-border pt-6">
+        <CardFooter className="flex flex-col md:flex-row items-center justify-between gap-4 border-t border-border pt-6">
           <span>Para um maior limite, assine o PRO</span>
           <Button type="submit">Assine por R$24,99/ mês</Button>
         </CardFooter>
