@@ -43,7 +43,7 @@ export default async function Page() {
         </CardContent>
         <CardFooter className="flex items-center justify-between border-t border-border pt-6">
           <span>Para um maior limite, assine o PRO</span>
-          <Button type="submit">Assine por R$9/ mês</Button>
+          <Button type="submit">Assine por R$24,99/ mês</Button>
         </CardFooter>
       </Card>
     </form>
