@@ -29,7 +29,7 @@ export function MainSidebar({ user }: MainSidebarProps) {
   }
 
   return (
-    <DashboardSidebar>
+    <DashboardSidebar className="h-full">
       <DashboardSidebarHeader>
         <Logo />
       </DashboardSidebarHeader>
