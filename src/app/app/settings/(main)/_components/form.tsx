@@ -95,7 +95,7 @@ export function ProfileForm({ defaultValues }: ProfileFormProps) {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Digite seu email"  {...field} disabled />
+                    <Input placeholder="Digite seu email" {...field} disabled />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
