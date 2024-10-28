@@ -6,6 +6,10 @@ import { MobileNav } from './_components/mobile-nav'
 export default async function Layout({ children }: PropsWithChildren) {
   const session = await auth()
 
+  if (!session?.user) {
+    return <div>Loading...</div>
+  }
+
   return (
     // Mudamos para flex por padrão (mobile) e grid apenas em telas maiores
     <div className="flex flex-col md:grid md:grid-cols-[16rem_1fr]">
