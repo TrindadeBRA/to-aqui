@@ -34,21 +34,46 @@ export const {
   events: {
     createUser: async (message) => {
       try {
+        if (!message.user.email) {
+          console.error('Email não fornecido durante a criação do usuário')
+          throw new Error('Email é obrigatório')
+        }
+
+        console.log('Dados completos do usuário:', message.user)
         console.log('Iniciando criação do cliente no Stripe:', {
           email: message.user.email,
-          name: message.user.name,
+          name: message.user.name || 'Usuário Anônimo', // fallback para quando name for null
         })
 
         await createStripeCustomer({
-          name: message.user.name as string,
+          name: message.user.name || 'Usuário Anônimo',
           email: message.user.email as string,
         })
 
         console.log('Cliente criado com sucesso no Stripe')
+        console.log('Status da sessão após criação:', await auth())
       } catch (error) {
-        console.error('Erro ao criar cliente no Stripe:', error)
+        console.error('Erro detalhado ao criar cliente:', {
+          error,
+          userData: message.user,
+          timestamp: new Date().toISOString(),
+        })
         throw error
       }
+    },
+  },
+  callbacks: {
+    signIn: async ({ user, account, profile }) => {
+      console.log('Tentativa de login:', { user, account, profile })
+      return true
+    },
+    session: async ({ session, user }) => {
+      console.log('Sessão sendo criada:', { session, user })
+      return session
+    },
+    redirect: async ({ url, baseUrl }) => {
+      console.log('Redirecionamento:', { url, baseUrl })
+      return url.startsWith(baseUrl) ? url : baseUrl
     },
   },
 })
