@@ -21,6 +21,7 @@ export const {
     EmailProvider({
       server: process.env.EMAIL_SERVER,
       from: process.env.EMAIL_FROM,
+      maxAge: 24 * 60 * 60,
     }),
   ],
   events: {
@@ -31,4 +32,5 @@ export const {
       })
     },
   },
+  debug: true,
 })
