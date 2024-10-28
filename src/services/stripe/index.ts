@@ -50,6 +50,7 @@ export const createCheckoutSession = async (
   userEmail: string,
   userStripeSubscriptionId: string,
 ) => {
+  const NEXT_PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL
   try {
     const customer = await createStripeCustomer({
       email: userEmail,
@@ -62,14 +63,13 @@ export const createCheckoutSession = async (
 
     const session = await stripe.billingPortal.sessions.create({
       customer: customer.id,
-      return_url: 'http://localhost:3000/app/settings/billing',
+      return_url: `${NEXT_PUBLIC_APP_URL}/app/settings/billing`,
       flow_data: {
         type: 'subscription_update_confirm',
         after_completion: {
           type: 'redirect',
           redirect: {
-            return_url:
-              'http://localhost:3000/app/settings/billing?success=true',
+            return_url: `${NEXT_PUBLIC_APP_URL}/app/settings/billing?success=true`,
           },
         },
         subscription_update_confirm: {
