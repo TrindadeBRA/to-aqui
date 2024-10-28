@@ -11,12 +11,12 @@ export default async function Layout({ children }: PropsWithChildren) {
     <div className="flex flex-col md:grid md:grid-cols-[16rem_1fr]">
       {/* Sidebar desktop */}
       <div className="hidden md:block">
-        <MainSidebar user={session!.user} />
+        <MainSidebar user={session?.user} />
       </div>
 
       {/* Header mobile com menu */}
       <div className="border-b md:hidden p-4">
-        <MobileNav user={session!.user} />
+        <MobileNav user={session?.user} />
       </div>
 
       <main className="flex-1">{children}</main>
