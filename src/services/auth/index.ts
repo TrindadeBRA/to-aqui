@@ -3,7 +3,7 @@ import EmailProvider from 'next-auth/providers/nodemailer'
 
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { prisma } from '../database'
-// import { createStripeCustomer } from '../stripe'
+import { createStripeCustomer } from '../stripe'
 
 export const {
   handlers: { GET, POST },
@@ -32,12 +32,23 @@ export const {
     }),
   ],
   events: {
-    // createUser: async (message) => {
-    //   await createStripeCustomer({
-    //     name: message.user.name as string,
-    //     email: message.user.email as string,
-    //   })
-    // },
+    createUser: async (message) => {
+      try {
+        console.log('Iniciando criação do cliente no Stripe:', {
+          email: message.user.email,
+          name: message.user.name,
+        })
+
+        await createStripeCustomer({
+          name: message.user.name as string,
+          email: message.user.email as string,
+        })
+
+        console.log('Cliente criado com sucesso no Stripe')
+      } catch (error) {
+        console.error('Erro ao criar cliente no Stripe:', error)
+        throw error
+      }
+    },
   },
-  debug: true,
 })
