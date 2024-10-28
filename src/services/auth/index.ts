@@ -20,12 +20,12 @@ export const {
   providers: [
     EmailProvider({
       server: {
-        host: "sandbox.smtp.mailtrap.io",
+        host: 'sandbox.smtp.mailtrap.io',
         port: 587,
         auth: {
-          user: "074245c3a9070d",
-          pass: "ad803e39bef73e"
-        }
+          user: '074245c3a9070d',
+          pass: 'ad803e39bef73e',
+        },
       },
       from: process.env.EMAIL_FROM,
       maxAge: 24 * 60 * 60,
