@@ -68,12 +68,33 @@ export const {
       return true
     },
     session: async ({ session, user }) => {
-      console.log('Sessão sendo criada:', { session, user })
-      return session
+      // Garantir que todos os dados do usuário estejam na sessão
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          ...user,
+        },
+      }
     },
     redirect: async ({ url, baseUrl }) => {
-      console.log('Redirecionamento:', { url, baseUrl })
-      return url.startsWith(baseUrl) ? url : baseUrl
+      console.log('Redirecionamento - URL:', url)
+      console.log('Redirecionamento - Base URL:', baseUrl)
+
+      // Se o usuário acabou de se registrar/logar, force o redirecionamento para /app
+      if (url.includes('/api/auth/callback')) {
+        console.log('Redirecionando para /app após autenticação')
+        return `${baseUrl}/app`
+      }
+
+      // Para outros casos, mantenha o comportamento padrão
+      if (url.startsWith(baseUrl)) {
+        console.log('Mantendo URL original:', url)
+        return url
+      }
+
+      console.log('Redirecionando para base URL:', baseUrl)
+      return baseUrl
     },
   },
 })
