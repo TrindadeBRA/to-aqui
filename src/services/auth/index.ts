@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth'
 import EmailProvider from 'next-auth/providers/nodemailer'
+import CredentialsProvider from 'next-auth/providers/credentials'
 
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { prisma } from '../database'
@@ -10,11 +11,11 @@ export const {
   auth,
 } = NextAuth({
   pages: {
-    signIn: '/auth',
-    signOut: '/auth',
-    error: '/auth',
-    verifyRequest: '/auth',
-    newUser: '/app',
+    signIn: '/auth?v=signIn',
+    signOut: '/auth?v=signOut',
+    error: '/auth?v=error',
+    verifyRequest: '/auth?v=verifyRequest',
+    newUser: '/app?v=newUser',
   },
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -29,6 +30,12 @@ export const {
       },
       from: process.env.EMAIL_FROM,
       maxAge: 24 * 60 * 60,
+    }),
+    CredentialsProvider({
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
+      },
     }),
   ],
   events: {

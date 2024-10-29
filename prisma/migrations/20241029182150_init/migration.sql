@@ -33,6 +33,7 @@ CREATE TABLE "User" (
     "email" TEXT,
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
+    "password" TEXT,
     "stripeCustomerId" TEXT,
     "stripeSubscriptionId" TEXT,
     "stripeSubscriptionStatus" TEXT,
