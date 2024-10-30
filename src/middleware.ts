@@ -6,7 +6,7 @@ export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
   if (
-    (pathname === '/auth' ||
+    (pathname === '/magic-link' ||
       pathname === '/login' ||
       pathname === '/register') &&
     token
