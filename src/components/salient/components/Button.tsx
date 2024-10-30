@@ -5,9 +5,9 @@ import clsx from 'clsx'
 
 const baseStyles = {
   solid:
-    'group inline-flex items-center justify-center rounded-md py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-pointer',
+    'group inline-flex items-center justify-center rounded-md py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed',
   outline:
-    'group inline-flex ring-1 items-center justify-center rounded-md py-2 px-4 text-sm focus:outline-none disabled:cursor-pointer',
+    'group inline-flex ring-1 items-center justify-center rounded-md py-2 px-4 text-sm focus:outline-none disabled:cursor-not-allowed',
 }
 
 const variantStyles = {
@@ -60,7 +60,7 @@ export function Button({ className, disabled = false, ...props }: ButtonProps) {
   )
 
   return typeof props.href === 'undefined' ? (
-    <button className={className} disabled={disabled} {...props} />
+    <button className={`${className} disabled:opacity-75`} disabled={disabled} {...props} />
   ) : (
     <Link 
       className={className} 
