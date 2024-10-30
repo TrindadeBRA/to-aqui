@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "lint": "next lint",
-    "build": "npm run lint && prisma generate && next build",
+    "build": "npm run lint && prisma migrate deploy && next build",
     "start": "next start",
     "vercel": "vercel"
   },
