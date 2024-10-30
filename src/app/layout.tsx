@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from './_components/theme-provider'
+import Head from 'next/head'
 
 import './globals.css'
 import { SessionProvider } from 'next-auth/react'
@@ -29,6 +30,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="scroll-smooth">
+      <Head>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9804371639852685"
+          crossOrigin="anonymous"></script>
+      </Head>
       <body className={inter.className}>
         <SessionProvider>
           <ThemeProvider
