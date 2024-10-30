@@ -11,19 +11,19 @@ const testimonials = [
   [
     {
       content:
-        'TaxPal is so easy to use I can’t help but wonder if it’s really doing the things the government expects me to do.',
+        'O To aqui! é tão fácil de usar que revolucionou a forma como gerencio meu restaurante. O cardápio digital e QR Code trouxeram mais clientes.',
       author: {
-        name: 'Sheryl Berge',
-        role: 'CEO at Lynch LLC',
+        name: 'Ana Silva',
+        role: 'Proprietária do Restaurante Sabor & Arte',
         image: avatarImage1,
       },
     },
     {
       content:
-        'I’m trying to get a hold of someone in support, I’m in a lot of trouble right now and they are saying it has something to do with my books. Please get back to me right away.',
+        'As imagens geradas automaticamente para redes sociais economizam muito do meu tempo. Agora consigo manter uma presença digital profissional sem esforço.',
       author: {
-        name: 'Amy Hahn',
-        role: 'Director at Velocity Industries',
+        name: 'Carlos Santos',
+        role: 'Gerente do Café Aroma',
         image: avatarImage4,
       },
     },
@@ -31,19 +31,19 @@ const testimonials = [
   [
     {
       content:
-        'The best part about TaxPal is every time I pay my employees, my bank balance doesn’t go down like it used to. Looking forward to spending this extra cash when I figure out why my card is being declined.',
+        'A melhor parte do To aqui! é como ele simplificou nossa gestão. O cardápio digital sempre atualizado e o QR Code personalizado deram um toque profissional ao nosso estabelecimento.',
       author: {
-        name: 'Leland Kiehn',
-        role: 'Founder of Kiehn and Sons',
+        name: 'Mariana Costa',
+        role: 'Proprietária da Pizzaria Bella',
         image: avatarImage5,
       },
     },
     {
       content:
-        'There are so many things I had to do with my old software that I just don’t do at all with TaxPal. Suspicious but I can’t say I don’t love it.',
+        'Desde que começamos a usar o To aqui!, nossas redes sociais ganharam vida nova. As imagens personalizadas são um diferencial incrível.',
       author: {
-        name: 'Erin Powlowski',
-        role: 'COO at Armstrong Inc',
+        name: 'Pedro Oliveira',
+        role: 'Dono do Bar do Pedro',
         image: avatarImage2,
       },
     },
@@ -51,19 +51,19 @@ const testimonials = [
   [
     {
       content:
-        'I used to have to remit tax to the EU and with TaxPal I somehow don’t have to do that anymore. Nervous to travel there now though.',
+        'A facilidade de gerenciar múltiplos estabelecimentos em uma única plataforma é fantástica. Economizamos tempo e dinheiro com o To aqui!',
       author: {
-        name: 'Peter Renolds',
-        role: 'Founder of West Inc',
+        name: 'Roberto Almeida',
+        role: 'Diretor da Rede Sabor Express',
         image: avatarImage3,
       },
     },
     {
       content:
-        'This is the fourth email I’ve sent to your support team. I am literally being held in jail for tax fraud. Please answer your damn emails, this is important.',
+        'O suporte ao cliente é excepcional. Sempre que precisei de ajuda, fui atendido rapidamente. A plataforma transformou nosso negócio.',
       author: {
-        name: 'Amy Hahn',
-        role: 'Director at Velocity Industries',
+        name: 'Juliana Lima',
+        role: 'Gerente do Bistrô Charme',
         image: avatarImage4,
       },
     },
@@ -82,18 +82,17 @@ export function Testimonials() {
   return (
     <section
       id="testimonials"
-      aria-label="What our customers are saying"
+      aria-label="O que nossos clientes estão dizendo"
       className="bg-slate-50 py-20 sm:py-32"
     >
       <Container>
         <div className="mx-auto max-w-2xl md:text-center">
           <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
-            Loved by businesses worldwide.
+            Amado por estabelecimentos em todo o Brasil
           </h2>
           <p className="mt-4 text-lg tracking-tight text-slate-700">
-            Our software is so simple that people can’t help but fall in love
-            with it. Simplicity is easy when you just skip tons of
-            mission-critical features.
+            Nossa plataforma é tão intuitiva que os clientes se apaixonam
+            instantaneamente. Simplicidade e eficiência em um só lugar.
           </p>
         </div>
         <ul

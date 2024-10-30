@@ -12,9 +12,9 @@ export function Footer() {
           <Logo className="mx-auto h-10 w-auto" />
           <nav className="mt-10 text-sm" aria-label="quick links">
             <div className="-my-1 flex justify-center gap-x-6">
-              <NavLink href="#features">Features</NavLink>
-              <NavLink href="#testimonials">Testimonials</NavLink>
-              <NavLink href="#pricing">Pricing</NavLink>
+              <NavLink href="#features">Recursos</NavLink>
+              <NavLink href="#testimonials">Depoimentos</NavLink>
+              <NavLink href="#pricing">Preços</NavLink>
             </div>
           </nav>
         </div>
@@ -40,8 +40,15 @@ export function Footer() {
             </Link>
           </div>
           <p className="mt-6 text-sm text-slate-500 sm:mt-0">
-            Copyright &copy; {new Date().getFullYear()} TaxPal. All rights
-            reserved.
+            Copyright &copy; {new Date().getFullYear()}{' '}
+            <Link
+              href="https://thetrinityweb.com.br"
+              className="font-medium text-blue-600"
+              target="_blank"
+            >
+              TheTrinityWeb
+            </Link>
+            . Todos os direitos reservados.
           </p>
         </div>
       </Container>

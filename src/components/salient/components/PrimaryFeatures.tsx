@@ -14,27 +14,27 @@ import screenshotVatReturns from '../images/screenshots/vat-returns.png'
 
 const features = [
   {
-    title: 'Payroll',
+    title: 'Cardápio Digital',
     description:
-      "Keep track of everyone's salaries and whether or not they've been paid. Direct deposit not supported.",
+      'Crie e gerencie seu cardápio digital de forma simples e rápida. Atualize preços e itens em tempo real.',
     image: screenshotPayroll,
   },
   {
-    title: 'Claim expenses',
+    title: 'QR Code Personalizado',
     description:
-      "All of your receipts organized into one place, as long as you don't mind typing in the data by hand.",
+      'Gere QR Codes personalizados para seu estabelecimento. Seus clientes acessam o cardápio digital com apenas um escaneamento.',
     image: screenshotExpenses,
   },
   {
-    title: 'VAT handling',
+    title: 'Página Web Profissional',
     description:
-      "We only sell our software to companies who don't deal with VAT at all, so technically we do all the VAT stuff they need.",
+      'Tenha uma página web profissional e otimizada para seu negócio, com todas as informações importantes em um só lugar.',
     image: screenshotVatReturns,
   },
   {
-    title: 'Reporting',
+    title: 'Conteúdo para Redes Sociais',
     description:
-      'Easily export your data into an Excel spreadsheet where you can do whatever the hell you want with it.',
+      'Crie posts profissionais para suas redes sociais automaticamente, com sua marca e informações do estabelecimento.',
     image: screenshotReporting,
   },
 ]
@@ -62,7 +62,7 @@ export function PrimaryFeatures() {
   return (
     <section
       id="features"
-      aria-label="Features for running your books"
+      aria-label="Recursos principais"
       className="relative overflow-hidden bg-blue-600 pb-28 pt-20 sm:py-32"
     >
       <Image
@@ -76,11 +76,11 @@ export function PrimaryFeatures() {
       <Container className="relative">
         <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
           <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">
-            Everything you need to run your books.
+            Tudo que você precisa para seu negócio crescer.
           </h2>
           <p className="mt-6 text-lg tracking-tight text-blue-100">
-            Well everything you need if you aren’t that picky about minor
-            details like tax compliance.
+            Uma solução completa para digitalizar seu estabelecimento e alcançar
+            mais clientes.
           </p>
         </div>
         <TabGroup

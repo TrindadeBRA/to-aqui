@@ -60,7 +60,7 @@ function MobileNavigation() {
     <Popover>
       <PopoverButton
         className="relative z-10 flex h-8 w-8 items-center justify-center ui-not-focus-visible:outline-none"
-        aria-label="Toggle Navigation"
+        aria-label="Alternar Navegação"
       >
         {({ open }) => <MobileNavIcon open={open} />}
       </PopoverButton>
@@ -72,11 +72,11 @@ function MobileNavigation() {
         transition
         className="absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl bg-white p-4 text-lg tracking-tight text-slate-900 shadow-xl ring-1 ring-slate-900/5 data-[closed]:scale-95 data-[closed]:opacity-0 data-[enter]:duration-150 data-[leave]:duration-100 data-[enter]:ease-out data-[leave]:ease-in"
       >
-        <MobileNavLink href="#features">Features</MobileNavLink>
-        <MobileNavLink href="#testimonials">Testimonials</MobileNavLink>
-        <MobileNavLink href="#pricing">Pricing</MobileNavLink>
+        <MobileNavLink href="#features">Recursos</MobileNavLink>
+        <MobileNavLink href="#testimonials">Depoimentos</MobileNavLink>
+        <MobileNavLink href="#pricing">Planos</MobileNavLink>
         <hr className="m-2 border-slate-300/40" />
-        <MobileNavLink href="/login">Login</MobileNavLink>
+        <MobileNavLink href="/login">Entrar</MobileNavLink>
       </PopoverPanel>
     </Popover>
   )
@@ -88,18 +88,18 @@ export function Header() {
       <Container>
         <nav className="relative z-50 flex justify-between">
           <div className="flex items-center md:gap-x-12">
-            <Link href="#" aria-label="Home">
+            <Link href="#" aria-label="Início">
               <Logo className="h-10 w-auto" />
             </Link>
             <div className="hidden md:flex md:gap-x-6">
-              <NavLink href="#features">Features</NavLink>
-              <NavLink href="#testimonials">Testimonials</NavLink>
-              <NavLink href="#pricing">Pricing</NavLink>
+              <NavLink href="#features">Recursos</NavLink>
+              <NavLink href="#testimonials">Depoimentos</NavLink>
+              <NavLink href="#pricing">Planos</NavLink>
             </div>
           </div>
           <div className="flex items-center gap-x-5 md:gap-x-8">
             <div className="hidden md:block">
-              <NavLink href="/login">Login</NavLink>
+              <NavLink href="/login">Entrar</NavLink>
             </div>
             <Button href="/register" color="blue">
               <span>Criar conta</span>

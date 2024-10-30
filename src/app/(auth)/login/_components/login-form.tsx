@@ -2,12 +2,16 @@
 
 import { createCheckoutSessionAction } from '@/app/app/settings/billing/actions'
 import { Button } from '@/components/ui/button'
+import { Button as ButtonSalient } from '@/components/salient/components/Button'
+
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from '@/components/ui/use-toast'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { Eye, EyeOff } from 'lucide-react'
 
 type LoginFormData = {
   email: string
@@ -17,6 +21,7 @@ type LoginFormData = {
 export function LoginForm() {
   const form = useForm<LoginFormData>()
   const router = useRouter()
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
@@ -53,7 +58,7 @@ export function LoginForm() {
   })
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 text-black">
+    <form onSubmit={handleSubmit} className="space-y-4 text-black mt-6">
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
         <Input
@@ -66,21 +71,43 @@ export function LoginForm() {
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">Senha</Label>
-        <Input
-          id="password"
-          type="password"
-          required
-          placeholder="••••••••"
-          {...form.register('password')}
-        />
+        <div className="relative">
+          <Input
+            id="password"
+            type={showPassword ? 'text' : 'password'}
+            required
+            placeholder="Digite sua senha"
+            {...form.register('password')}
+          />
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="absolute right-2 top-1/2 -translate-y-1/2 hover:bg-transparent"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {!showPassword ? (
+              <EyeOff className="size-5 text-black" />
+            ) : (
+              <Eye className="size-5 text-black" />
+            )}
+          </Button>
+        </div>
       </div>
-      <Button
-        className="w-full"
+      <ButtonSalient
         type="submit"
+        variant="solid"
+        color="blue"
+        className="w-full py-3"
         disabled={form.formState.isSubmitting}
       >
-        {form.formState.isSubmitting ? 'Entrando...' : 'Entrar'}
-      </Button>
+        <span>
+          {form.formState.isSubmitting ? 'Entrando' : 'Entrar'}
+          <span aria-hidden="true" className="pl-2">
+            {form.formState.isSubmitting ? '...' : '→'}
+          </span>
+        </span>
+      </ButtonSalient>
     </form>
   )
 }

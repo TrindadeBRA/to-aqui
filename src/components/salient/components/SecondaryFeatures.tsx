@@ -20,10 +20,11 @@ interface Feature {
 
 const features: Array<Feature> = [
   {
-    name: 'Reporting',
-    summary: 'Stay on top of things with always up-to-date reporting features.',
+    name: 'Análise de Desempenho',
+    summary:
+      'Acompanhe o crescimento do seu negócio com relatórios atualizados.',
     description:
-      'We talked about reporting in the section above but we needed three items here, so mentioning it one more time for posterity.',
+      'Monitore as visualizações do seu cardápio digital, acessos via QR Code e interações nas redes sociais para otimizar sua presença digital.',
     image: screenshotProfitLoss,
     icon: function ReportingIcon() {
       let id = useId()
@@ -54,11 +55,11 @@ const features: Array<Feature> = [
     },
   },
   {
-    name: 'Inventory',
+    name: 'Gestão de Cardápio',
     summary:
-      'Never lose track of what’s in stock with accurate inventory tracking.',
+      'Mantenha seu cardápio sempre atualizado com nossa ferramenta intuitiva.',
     description:
-      'We don’t offer this as part of our software but that statement is inarguably true. Accurate inventory tracking would help you for sure.',
+      'Atualize preços, adicione novos itens e organize categorias facilmente. Seu cardápio digital sempre sincronizado com as informações mais recentes.',
     image: screenshotInventory,
     icon: function InventoryIcon() {
       return (
@@ -82,11 +83,11 @@ const features: Array<Feature> = [
     },
   },
   {
-    name: 'Contacts',
+    name: 'Gestão de Estabelecimentos',
     summary:
-      'Organize all of your contacts, service providers, and invoices in one place.',
+      'Gerencie múltiplos estabelecimentos em uma única plataforma centralizada.',
     description:
-      'This also isn’t actually a feature, it’s just some friendly advice. We definitely recommend that you do this, you’ll feel really organized and professional.',
+      'Cadastre e gerencie todos os seus estabelecimentos em um só lugar. Personalize informações, horários de funcionamento e dados de contato de forma simples e organizada.',
     image: screenshotContacts,
     icon: function ContactsIcon() {
       return (
@@ -228,17 +229,17 @@ export function SecondaryFeatures() {
   return (
     <section
       id="secondary-features"
-      aria-label="Features for simplifying everyday business tasks"
+      aria-label="Recursos para simplificar a gestão do seu negócio"
       className="pb-14 pt-20 sm:pb-20 sm:pt-32 lg:pb-32"
     >
       <Container>
         <div className="mx-auto max-w-2xl md:text-center">
           <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
-            Simplify everyday business tasks.
+            Simplifique a gestão do seu negócio
           </h2>
           <p className="mt-4 text-lg tracking-tight text-slate-700">
-            Because you’d probably be a little confused if we suggested you
-            complicate your everyday business tasks instead.
+            Ferramentas intuitivas para você focar no que realmente importa:
+            fazer seu negócio crescer.
           </p>
         </div>
         <FeaturesMobile />

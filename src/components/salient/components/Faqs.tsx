@@ -6,53 +6,53 @@ import { Container } from './Container'
 const faqs = [
   [
     {
-      question: 'Does TaxPal handle VAT?',
+      question: 'O "To aqui!" funciona em qualquer estabelecimento?',
       answer:
-        'Well no, but if you move your company offshore you can probably ignore it.',
+        'Sim! Nossa plataforma é ideal para restaurantes, bares, cafés, lanchonetes e qualquer estabelecimento que queira uma presença digital profissional.',
     },
     {
-      question: 'Can I pay for my subscription via purchase order?',
-      answer: 'Absolutely, we are happy to take your money in all forms.',
+      question: 'Como funciona o pagamento da assinatura?',
+      answer:
+        'Aceitamos diversas formas de pagamento, incluindo cartão de crédito, boleto e PIX.',
     },
     {
-      question: 'How do I apply for a job at TaxPal?',
+      question: 'Como faço para começar a usar o "To aqui!"?',
       answer:
-        'We only hire our customers, so subscribe for a minimum of 6 months and then let’s talk.',
+        'É simples! Basta se cadastrar na plataforma, adicionar as informações do seu estabelecimento e em poucos minutos sua página estará no ar.',
     },
   ],
   [
     {
-      question: 'What was that testimonial about tax fraud all about?',
+      question: 'O QR Code é gerado automaticamente?',
       answer:
-        'TaxPal is just a software application, ultimately your books are your responsibility.',
+        'Sim! Geramos automaticamente um QR Code exclusivo para seu estabelecimento que pode ser impresso em materiais promocionais.',
     },
     {
-      question:
-        'TaxPal sounds horrible but why do I still feel compelled to purchase?',
+      question: 'Posso personalizar as cores e o layout da minha página?',
       answer:
-        'This is the power of excellent visual design. You just can’t resist it, no matter how poorly it actually functions.',
+        'Com certeza! Oferecemos várias opções de personalização para que sua página combine perfeitamente com a identidade visual do seu negócio.',
     },
     {
-      question:
-        'I found other companies called TaxPal, are you sure you can use this name?',
+      question: 'Posso atualizar meu cardápio quando quiser?',
       answer:
-        'Honestly not sure at all. We haven’t actually incorporated or anything, we just thought it sounded cool and made this website.',
+        'Sim! Você pode atualizar seu cardápio, preços, fotos e informações a qualquer momento através do painel de controle.',
     },
   ],
   [
     {
-      question: 'How do you generate reports?',
+      question: 'Como funcionam as imagens para redes sociais?',
       answer:
-        'You just tell us what data you need a report for, and we get our kids to create beautiful charts for you using only the finest crayons.',
+        'Nossa plataforma gera automaticamente imagens profissionais com sua logo e informações de contato, prontas para compartilhar no Instagram, Facebook e WhatsApp.',
     },
     {
-      question: 'Can we expect more inventory features?',
-      answer: 'In life it’s really better to never expect anything at all.',
+      question: 'Vocês oferecem suporte técnico?',
+      answer:
+        'Sim! Temos uma equipe dedicada para ajudar você com qualquer dúvida ou dificuldade.',
     },
     {
-      question: 'I lost my password, how do I get into my account?',
+      question: 'Esqueci minha senha, como recupero o acesso?',
       answer:
-        'Send us an email and we will send you a copy of our latest password spreadsheet so you can find your information.',
+        'Basta clicar em "Esqueci minha senha" na página de login e seguir as instruções enviadas para seu e-mail cadastrado.',
     },
   ],
 ]
@@ -78,11 +78,11 @@ export function Faqs() {
             id="faq-title"
             className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl"
           >
-            Frequently asked questions
+            Perguntas Frequentes
           </h2>
           <p className="mt-4 text-lg tracking-tight text-slate-700">
-            If you can’t find what you’re looking for, email our support team
-            and if you’re lucky someone will get back to you.
+            Não encontrou o que procura? Entre em contato com nosso suporte que
+            responderemos o mais rápido possível.
           </p>
         </div>
         <ul
