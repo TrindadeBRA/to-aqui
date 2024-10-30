@@ -6,7 +6,7 @@
     "dev": "next dev",
     "lint": "next lint",
     "build": "npm run lint && prisma generate && next build",
-    "postbuild": "yarn prisma migrate reset --force",
+    "postbuild": "yarn prisma migrate deploy",
     "start": "next start",
     "vercel": "vercel"
   },
