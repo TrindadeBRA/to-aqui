@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="scroll-smooth">
       <Head>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9804371639852685" //TODO: Deixar dinâmico
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9804371639852685" // TODO: Deixar dinâmico
           crossOrigin="anonymous"></script>
       </Head>
       <body className={inter.className}>
