@@ -29,7 +29,7 @@ export async function POST(req: Request) {
       await handleProcessWebhookUpdatedSubscription(event.data)
       break
     default:
-      console.log(`Unhandled event type ${event.type}`)
+      console.log(`event type not used: ${event.type}`)
   }
 
   return new Response('{ "received": true }', { status: 200 })
