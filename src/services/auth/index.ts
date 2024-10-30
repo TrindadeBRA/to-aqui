@@ -75,10 +75,16 @@ export const {
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.userId = user.id
+        token.email = user.email
       }
+
+      if (trigger === 'update' && session) {
+        return { ...token, ...session }
+      }
+
       return token
     },
     async session({ session, token }) {
