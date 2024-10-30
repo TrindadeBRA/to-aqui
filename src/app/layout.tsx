@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     description: 'ToAqui Online oferece uma plataforma digital para restaurantes, bares e cafés, facilitando a presença online e a interação com clientes. Cadastre-se e tenha seu cardápio digital em minutos!',
     url: 'https://to-aqui.thetrinityweb.com.br',
     siteName: 'ToAqui Online',
-    images: ['/assets/OGIMAGE.png'],
+    images: [`${process.env.NEXT_PUBLIC_APP_URL}/assets/OGIMAGE.png`],
     locale: 'pt-BR',
     type: 'website',
   },
