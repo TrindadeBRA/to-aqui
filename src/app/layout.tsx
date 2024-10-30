@@ -9,10 +9,10 @@ import { SessionProvider } from 'next-auth/react'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'ToAqui Online - TheTrinityWeb.com.br',
+  title: 'ToAqui Online | Cardápio Digital Profissional para seu Estabelecimento',
   description: 'ToAqui Online oferece uma plataforma digital para restaurantes, bares e cafés, facilitando a presença online e a interação com clientes. Cadastre-se e tenha seu cardápio digital em minutos!',
   openGraph: {
-    title: 'ToAqui Online - TheTrinityWeb.com.br',
+    title: 'ToAqui Online | Cardápio Digital Profissional para seu Estabelecimento',
     description: 'ToAqui Online oferece uma plataforma digital para restaurantes, bares e cafés, facilitando a presença online e a interação com clientes. Cadastre-se e tenha seu cardápio digital em minutos!',
     url: 'https://to-aqui.thetrinityweb.com.br',
     siteName: 'ToAqui Online',
