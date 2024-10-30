@@ -3,9 +3,9 @@ import clsx from 'clsx'
 
 const baseStyles = {
   solid:
-    'group inline-flex items-center justify-center rounded-md py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-pointer',
+    'group inline-flex items-center justify-center rounded-md py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
   outline:
-    'group inline-flex ring-1 items-center justify-center rounded-md py-2 px-4 text-sm focus:outline-none disabled:cursor-pointer',
+    'group inline-flex ring-1 items-center justify-center rounded-md py-2 px-4 text-sm focus:outline-none disabled:cursor-not-allowed disabled:opacity-50',
 }
 
 const variantStyles = {
@@ -28,10 +28,12 @@ type ButtonProps = (
   | {
       variant?: 'solid'
       color?: keyof typeof variantStyles.solid
+      disabled?: boolean
     }
   | {
       variant: 'outline'
       color?: keyof typeof variantStyles.outline
+      disabled?: boolean
     }
 ) &
   (
@@ -41,7 +43,7 @@ type ButtonProps = (
       })
   )
 
-export function Button({ className, ...props }: ButtonProps) {
+export function Button({ className, disabled = false, ...props }: ButtonProps) {
   props.variant ??= 'solid'
   props.color ??= 'slate'
 
@@ -56,8 +58,19 @@ export function Button({ className, ...props }: ButtonProps) {
   )
 
   return typeof props.href === 'undefined' ? (
-    <button className={className} {...props} />
+    <button className={className} disabled={disabled} {...props} />
   ) : (
-    <Link className={className} {...props} />
+    <Link 
+      className={className} 
+      {...props}
+      aria-disabled={disabled}
+      onClick={(e) => {
+        if (disabled) {
+          e.preventDefault()
+          return
+        }
+        props.onClick?.(e)
+      }}
+    />
   )
 }
