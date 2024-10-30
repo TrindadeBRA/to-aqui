@@ -40,7 +40,7 @@ export function LoginForm() {
         description: 'Você será redirecionado em instantes.',
       })
 
-      router.push('/app')
+      window.location.href = '/app'
     } catch (error) {
       console.error('Erro no login:', error)
 
