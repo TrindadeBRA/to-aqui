@@ -11,6 +11,7 @@
     "camelcase": "off",
     "import/no-unresolved": "off",
     "import/extensions": "off",
-    "prefer-const": "off"
+    "prefer-const": "off",
+    "prettier/prettier": "off"
   }
 }
