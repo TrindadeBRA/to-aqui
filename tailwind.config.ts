@@ -1,4 +1,6 @@
 import type { Config } from 'tailwindcss'
+import headlessuiPlugin from '@headlessui/tailwindcss'
+import formsPlugin from '@tailwindcss/forms'
 
 const config = {
   darkMode: ['class'],
@@ -78,6 +80,7 @@ const config = {
     require('tailwindcss-animate'),
     require('@headlessui/tailwindcss'),
     require('@tailwindcss/forms'),
+    formsPlugin, headlessuiPlugin
   ],
 } satisfies Config
 
