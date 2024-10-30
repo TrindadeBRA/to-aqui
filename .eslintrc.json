@@ -10,6 +10,7 @@
     "no-unused-vars": "off",
     "camelcase": "off",
     "import/no-unresolved": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "prefer-const": "off"
   }
 }
