@@ -51,6 +51,19 @@ export const createCheckoutSession = async (
   userStripeSubscriptionId: string,
 ) => {
   const NEXT_PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL
+
+  if (!userId) {
+    throw new Error('UserId is required')
+  }
+
+  if (!userEmail) {
+    throw new Error('UserEmail is required')
+  }
+
+  if (!userStripeSubscriptionId) {
+    throw new Error('UserStripeSubscriptionId is required')
+  }
+
   try {
     const customer = await createStripeCustomer({
       email: userEmail,
@@ -166,6 +179,10 @@ export const getPlanByPrice = (priceId: string) => {
 }
 
 export const getUserCurrentPlan = async (userId: string) => {
+  if (!userId) {
+    throw new Error('UserId is required')
+  }
+
   const user = await prisma.user.findUnique({
     where: {
       id: userId,

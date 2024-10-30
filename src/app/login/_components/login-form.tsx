@@ -1,10 +1,13 @@
 'use client'
 
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
+import { createCheckoutSessionAction } from '@/app/app/settings/billing/actions'
 import { Button } from '@/components/ui/button'
-import { useForm } from 'react-hook-form'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { toast } from '@/components/ui/use-toast'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
 
 type LoginFormData = {
   email: string
@@ -13,26 +16,34 @@ type LoginFormData = {
 
 export function LoginForm() {
   const form = useForm<LoginFormData>()
+  const router = useRouter()
 
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+      const response = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+        callbackUrl: '/app',
       })
 
-      if (!response.ok) {
+      if (!response) {
         throw new Error('Falha ao fazer login')
+      }
+
+      if (response.error === 'CredentialsSignin') {
+        throw new Error('Email ou senha incorretos. Tente novamente.')
       }
 
       toast({
         title: 'Login realizado com sucesso!',
         description: 'Você será redirecionado em instantes.',
       })
+
+      router.push('/app')
     } catch (error) {
+      console.error('Erro no login:', error)
+
       toast({
         title: 'Erro',
         description: 'Email ou senha incorretos. Tente novamente.',

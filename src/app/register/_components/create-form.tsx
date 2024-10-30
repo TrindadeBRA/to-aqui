@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useForm } from 'react-hook-form'
 import { toast } from '@/components/ui/use-toast'
+import { register } from '../_actions/register'
 
 type CreateFormData = {
   name: string
@@ -17,18 +18,11 @@ export function CreateForm() {
 
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
-      // Aqui você implementaria a chamada API para criar o usuário
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+      const formData = new FormData()
+      Object.entries(data).forEach(([key, value]) => {
+        formData.append(key, value)
       })
-
-      if (!response.ok) {
-        throw new Error('Falha ao criar conta')
-      }
+      await register(formData)
 
       toast({
         title: 'Conta criada com sucesso!',
