@@ -20,7 +20,6 @@ export const metadata: Metadata = {
     locale: 'pt-BR',
     type: 'website',
   },
-  // themeColor: '#1a6aeb',
 }
 
 export default function RootLayout({
@@ -29,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-BR" className="scroll-smooth">
       <body className={inter.className}>
         <SessionProvider>
           <ThemeProvider
