@@ -9,7 +9,7 @@ import { SessionProvider } from 'next-auth/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'ToAqui Online | Cardápio Digital Profissional para seu Estabelecimento',
   description: 'ToAqui Online oferece uma plataforma digital para restaurantes, bares e cafés, facilitando a presença online e a interação com clientes. Cadastre-se e tenha seu cardápio digital em minutos!',
   openGraph: {
@@ -21,7 +21,19 @@ export const metadata: Metadata = {
     locale: 'pt-BR',
     type: 'website',
   },
+  icons: {
+    icon: [
+      { rel: 'icon', url: `${process.env.NEXT_PUBLIC_APP_URL}/assets/favicon.ico`, sizes: 'any' },
+    ],
+    apple: [
+      { rel: 'apple-touch-icon', url: `${process.env.NEXT_PUBLIC_APP_URL}/assets/favicon.ico`, sizes: 'any' },
+    ],
+    android: [
+      { rel: 'icon', url: `${process.env.NEXT_PUBLIC_APP_URL}/assets/favicon.ico`, sizes: 'any', type: 'image/x-icon' },
+    ],
+  },
 }
+
 
 export default function RootLayout({
   children,
