@@ -16,7 +16,7 @@ import { HomeIcon, MixerVerticalIcon } from '@radix-ui/react-icons'
 import { UserDropdown } from './user-dropdown'
 import { Logo } from '@/components/logo'
 import { Session } from 'next-auth'
-import { StoreIcon } from 'lucide-react'
+import { CheckCheckIcon, StoreIcon } from 'lucide-react'
 
 type MainSidebarProps = {
   user: Session['user']
@@ -39,6 +39,10 @@ export function MainSidebar({ user }: MainSidebarProps) {
           <DashboardSidebarNavMain>
             <DashboardSidebarNavLink href="/app" active={isActive('/app')}>
               <HomeIcon className="size-4 mr-3" />
+              Dashboard
+            </DashboardSidebarNavLink>
+            <DashboardSidebarNavLink href="/app/to-do" active={isActive('/app/to-do')}>
+              <CheckCheckIcon className="size-4 mr-3" />
               Tarefas
             </DashboardSidebarNavLink>
             <DashboardSidebarNavLink 
@@ -53,7 +57,7 @@ export function MainSidebar({ user }: MainSidebarProps) {
               active={isActive('/app/settings')}
             >
               <MixerVerticalIcon className="size-4 mr-3" />
-              Configurações
+              Ajustes
             </DashboardSidebarNavLink>
           </DashboardSidebarNavMain>
         </DashboardSidebarNav>
