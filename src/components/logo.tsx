@@ -1,12 +1,12 @@
-import { RocketIcon } from '@radix-ui/react-icons'
+import Link from "next/link";
+import Image from "next/image";
 
 export function Logo() {
   return (
-    <div className="flex w-full gap-x-2 items-center">
-      <div className="bg-primary h-8 w-8 flex items-center justify-center rounded-md">
-        <RocketIcon className="w-5 h-5 text-primary-foreground" />
-      </div>
-      <span className="text-sm font-bold">Tô Aqui!</span>
-    </div>
+    <Link href="/" className="h-12 flex flex-col  justify-center w-full">
+      <Image src="/assets/DASH_LOGO.png" className="w-28 hidden dark:block" alt="ToAqui Logo" width={300} height={100} />
+      <Image src="/assets/DASH_DARK_LOGO.png" className="w-28 dark:hidden" alt="ToAqui Logo" width={300} height={100} />
+
+    </Link>
   )
 }

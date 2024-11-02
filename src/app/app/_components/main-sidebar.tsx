@@ -37,14 +37,14 @@ export function MainSidebar({ user }: MainSidebarProps) {
         <DashboardSidebarNav>
           <DashboardSidebarNavMain>
             <DashboardSidebarNavLink href="/app" active={isActive('/app')}>
-              <HomeIcon className="w-3 h-3 mr-3" />
+              <HomeIcon className="size-4 mr-3" />
               Tarefas
             </DashboardSidebarNavLink>
             <DashboardSidebarNavLink
               href="/app/settings"
               active={isActive('/app/settings')}
             >
-              <MixerVerticalIcon className="w-3 h-3 mr-3" />
+              <MixerVerticalIcon className="size-4 mr-3" />
               Configurações
             </DashboardSidebarNavLink>
           </DashboardSidebarNavMain>

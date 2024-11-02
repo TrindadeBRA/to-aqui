@@ -58,8 +58,8 @@ export function TodoDataTable({ data }: TodoDataTable) {
     router.refresh()
 
     toast({
-      title: 'Deletion Successful',
-      description: 'The todo item has been successfully deleted.',
+      title: 'Exclusão bem-sucedida',
+      description: 'O item da tarefa foi excluído com sucesso.',
     })
   }
 
@@ -70,15 +70,25 @@ export function TodoDataTable({ data }: TodoDataTable) {
     router.refresh()
 
     toast({
-      title: 'Update Successful',
-      description: 'The todo item has been successfully updated.',
+      title: 'Atualização bem-sucedida',
+      description: 'O item da tarefa foi atualizado com sucesso.',
     })
   }
 
   const columns: ColumnDef<Todo>[] = [
     {
-      accessorKey: 'status',
-      header: 'Status',
+      accessorKey: 'doneAt',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="link"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Status da tarefa
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
       cell: ({ row }) => {
         const { doneAt } = row.original
 
@@ -98,7 +108,7 @@ export function TodoDataTable({ data }: TodoDataTable) {
             variant="link"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
-            Title
+            Título
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         )
@@ -107,11 +117,19 @@ export function TodoDataTable({ data }: TodoDataTable) {
     },
     {
       accessorKey: 'createdAt',
-      header: () => <div className="text-right">createdAt</div>,
+      header: ({ column }) => (
+        <Button
+          variant="link"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Criado em
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      ),
       cell: ({ row }) => {
         return (
           <div className="text-right font-medium">
-            {row.original.createdAt.toLocaleDateString()}
+            {new Date(row.original.createdAt).toLocaleDateString()}
           </div>
         )
       },
@@ -126,23 +144,23 @@ export function TodoDataTable({ data }: TodoDataTable) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
+                <span className="sr-only">Abrir menu</span>
                 <DotsHorizontalIcon className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>Ações</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(todo.id)}
               >
-                Copy todo ID
+                Copiar ID da tarefa
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => handleToggleDoneTodo(todo)}>
-                Mark as done
+                Marcar como concluído
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleDeleteTodo(todo)}>
-                Delete
+                Excluir
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -183,9 +201,9 @@ export function TodoDataTable({ data }: TodoDataTable) {
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                     </TableHead>
                   )
                 })}
@@ -215,7 +233,7 @@ export function TodoDataTable({ data }: TodoDataTable) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Sem resultados.
                 </TableCell>
               </TableRow>
             )}
@@ -224,8 +242,8 @@ export function TodoDataTable({ data }: TodoDataTable) {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {table.getFilteredSelectedRowModel().rows.length} de{' '}
+          {table.getFilteredRowModel().rows.length} linha(s) selecionada(s).
         </div>
         <div className="space-x-2">
           <Button
@@ -234,7 +252,7 @@ export function TodoDataTable({ data }: TodoDataTable) {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            Anterior
           </Button>
           <Button
             variant="outline"
@@ -242,7 +260,7 @@ export function TodoDataTable({ data }: TodoDataTable) {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            Próximo
           </Button>
         </div>
       </div>

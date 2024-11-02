@@ -49,8 +49,8 @@ export function TodoUpsertSheet({ children }: TodoUpsertSheetProps) {
     ref.current?.click()
 
     toast({
-      title: 'Success',
-      description: 'Your todo has been updated successfully.',
+      title: 'Sucesso',
+      description: 'Seu todo foi atualizado com sucesso.',
     })
   })
 
@@ -63,9 +63,9 @@ export function TodoUpsertSheet({ children }: TodoUpsertSheetProps) {
         <Form {...form}>
           <form onSubmit={onSubmit} className="space-y-8 h-screen">
             <SheetHeader>
-              <SheetTitle>Upsert Todo</SheetTitle>
+              <SheetTitle>Adicionar ou Editar Todo</SheetTitle>
               <SheetDescription>
-                Add or edit your todo item here. Click save when you re done.
+                Adicione ou edite seu item de todo aqui. Clique em salvar quando terminar.
               </SheetDescription>
             </SheetHeader>
 
@@ -74,12 +74,12 @@ export function TodoUpsertSheet({ children }: TodoUpsertSheetProps) {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>Título</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your todo title" {...field} />
+                    <Input placeholder="Digite o título do seu todo" {...field} />
                   </FormControl>
                   <FormDescription>
-                    This will be the publicly displayed name for the task.
+                    Este será o nome exibido publicamente para a tarefa.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -87,7 +87,7 @@ export function TodoUpsertSheet({ children }: TodoUpsertSheetProps) {
             />
 
             <SheetFooter className="mt-auto">
-              <Button type="submit">Save changes</Button>
+              <Button type="submit">Salvar alterações</Button>
             </SheetFooter>
           </form>
         </Form>

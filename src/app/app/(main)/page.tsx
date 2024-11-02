@@ -23,7 +23,7 @@ export default async function Page() {
             <TodoUpsertSheet>
               <Button variant="outline" size="sm">
                 <PlusIcon className="w-4 h-4 mr-3" />
-                Add todo
+                Adicionar tarefa
               </Button>
             </TodoUpsertSheet>
           </DashboardPageHeaderNav>
