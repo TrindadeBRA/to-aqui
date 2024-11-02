@@ -5,8 +5,8 @@ import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
 import { PanelLeft } from "lucide-react"
 
-import { useIsMobile } from "@/components/hooks/use-mobile"
-import { cn } from "@/components/lib/utils"
+
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
@@ -18,6 +18,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { cn } from "@/lib/utils"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -436,7 +438,7 @@ const SidebarGroupLabel = React.forwardRef<
 
   return (
     <Comp
-      ref={ref}
+      ref={ref as any}
       data-sidebar="group-label"
       className={cn(
         "duration-200 flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 outline-none ring-sidebar-ring transition-[margin,opa] ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
@@ -457,7 +459,7 @@ const SidebarGroupAction = React.forwardRef<
 
   return (
     <Comp
-      ref={ref}
+      ref={ref as any}
       data-sidebar="group-action"
       className={cn(
         "absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground outline-none ring-sidebar-ring transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
@@ -558,7 +560,7 @@ const SidebarMenuButton = React.forwardRef<
 
     const button = (
       <Comp
-        ref={ref}
+        ref={ref as any}
         data-sidebar="menu-button"
         data-size={size}
         data-active={isActive}
@@ -603,7 +605,7 @@ const SidebarMenuAction = React.forwardRef<
 
   return (
     <Comp
-      ref={ref}
+      ref={ref as any}
       data-sidebar="menu-action"
       className={cn(
         "absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground outline-none ring-sidebar-ring transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 peer-hover/menu-button:text-sidebar-accent-foreground [&>svg]:size-4 [&>svg]:shrink-0",
@@ -614,7 +616,7 @@ const SidebarMenuAction = React.forwardRef<
         "peer-data-[size=lg]/menu-button:top-2.5",
         "group-data-[collapsible=icon]:hidden",
         showOnHover &&
-          "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
+        "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
         className
       )}
       {...props}
@@ -717,7 +719,7 @@ const SidebarMenuSubButton = React.forwardRef<
 
   return (
     <Comp
-      ref={ref}
+      ref={ref as any}
       data-sidebar="menu-sub-button"
       data-size={size}
       data-active={isActive}
