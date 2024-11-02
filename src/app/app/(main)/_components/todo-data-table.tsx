@@ -80,55 +80,80 @@ export function TodoDataTable({ data }: TodoDataTable) {
       accessorKey: 'doneAt',
       header: ({ column }) => {
         return (
-          <Button
-            variant="link"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            Status da tarefa
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
+          <div className="text-left">
+            <Button
+              variant="link"
+              onClick={() => {
+                column.toggleSorting(column.getIsSorted() === 'asc')
+                toast({
+                  title: 'Ordenação atualizada',
+                  description: `A coluna "Status da tarefa" foi ordenada em ordem ${column.getIsSorted() === 'asc' ? 'decrescente' : 'crescente'}.`,
+                })
+              }}
+            >
+              Status da tarefa
+              <CaretSortIcon className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
         )
       },
       cell: ({ row }) => {
         const { doneAt } = row.original
+        const status: 'Concluído' | 'Pendente' = doneAt ? 'Concluído' : 'Pendente'
+        const variant: 'outline' | 'secondary' = doneAt ? 'outline' : 'secondary'
 
-        const status: 'done' | 'waiting' = doneAt ? 'done' : 'waiting'
-        const variant: 'outline' | 'secondary' = doneAt
-          ? 'outline'
-          : 'secondary'
-
-        return <Badge variant={variant}>{status}</Badge>
+        return (
+          <div className="text-left">
+            <Badge variant={variant}>{status}</Badge>
+          </div>
+        )
       },
     },
     {
       accessorKey: 'title',
       header: ({ column }) => {
         return (
-          <Button
-            variant="link"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            Título
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
+          <div className="text-left">
+            <Button
+              variant="link"
+              onClick={() => {
+                column.toggleSorting(column.getIsSorted() === 'asc')
+                toast({
+                  title: 'Ordenação atualizada',
+                  description: `A coluna "Título" foi ordenada em ordem ${column.getIsSorted() === 'asc' ? 'decrescente' : 'crescente'}.`,
+                })
+              }}
+            >
+              Título
+              <CaretSortIcon className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
         )
       },
-      cell: ({ row }) => <div>{row.getValue('title')}</div>,
+      cell: ({ row }) => <div className="text-left">{row.getValue('title')}</div>,
     },
     {
       accessorKey: 'createdAt',
       header: ({ column }) => (
-        <Button
-          variant="link"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Criado em
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
+        <div className="text-left">
+          <Button
+            variant="link"
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === 'asc')
+              toast({
+                title: 'Ordenação atualizada',
+                description: `A coluna "Criado em" foi ordenada em ordem ${column.getIsSorted() === 'asc' ? 'decrescente' : 'crescente'}.`,
+              })
+            }}
+          >
+            Criado em
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
       ),
       cell: ({ row }) => {
         return (
-          <div className="text-right font-medium">
+          <div className="text-left font-medium">
             {new Date(row.original.createdAt).toLocaleDateString()}
           </div>
         )
@@ -141,29 +166,31 @@ export function TodoDataTable({ data }: TodoDataTable) {
         const todo = row.original
 
         return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Abrir menu</span>
-                <DotsHorizontalIcon className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Ações</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(todo.id)}
-              >
-                Copiar ID da tarefa
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => handleToggleDoneTodo(todo)}>
-                Marcar como concluído
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleDeleteTodo(todo)}>
-                Excluir
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="text-left">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0">
+                  <span className="sr-only">Abrir menu</span>
+                  <DotsHorizontalIcon className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                <DropdownMenuItem
+                  onClick={() => navigator.clipboard.writeText(todo.id)}
+                >
+                  Copiar ID da tarefa
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => handleToggleDoneTodo(todo)}>
+                  Marcar como concluído
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleDeleteTodo(todo)}>
+                  Excluir
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         )
       },
     },
@@ -231,7 +258,7 @@ export function TodoDataTable({ data }: TodoDataTable) {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-24 text-left"
                 >
                   Sem resultados.
                 </TableCell>

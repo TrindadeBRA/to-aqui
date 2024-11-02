@@ -57,10 +57,10 @@ export function MainSidebar({ user }: MainSidebarProps) {
             </DashboardSidebarNavHeaderTitle>
           </DashboardSidebarNavHeader>
           <DashboardSidebarNavMain>
-            <DashboardSidebarNavLink href="/">
+            <DashboardSidebarNavLink href="/" className='text-xs'>
               Precisa de ajuda?
             </DashboardSidebarNavLink>
-            <DashboardSidebarNavLink href="/">Site</DashboardSidebarNavLink>
+            <DashboardSidebarNavLink href="/" className='text-xs'>Site</DashboardSidebarNavLink>
           </DashboardSidebarNavMain>
         </DashboardSidebarNav>
       </DashboardSidebarMain>
