@@ -68,13 +68,13 @@ export function UserDropdown({ user }: UserDropdownProps) {
             router.push('/app/settings')
           }}>
             <MixerVerticalIcon className="w-3 h-3 mr-3" />
-            Configurações
+            Ajustes
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => {
             router.push('/app/settings/billing')
           }}>
             <RocketIcon className="w-3 h-3 mr-3" />
-            Planos
+            Meu Plano
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
             {theme === 'dark' ? (
