@@ -53,9 +53,10 @@ model User {
   stripeSubscriptionStatus String?
   stripePriceId            String?
 
-  accounts Account[]
-  sessions Session[]
-  todos    Todo[]
+  accounts       Account[]
+  sessions       Session[]
+  todos          Todo[]
+  establishments Establishment[]
 }
 
 model VerificationToken {
@@ -76,4 +77,35 @@ model Todo {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   doneAt    DateTime?
+}
+
+model Establishment {
+  id           String   @id @default(uuid())
+  name         String
+  slug         String   @unique
+  email        String?
+  phone        String?
+  instagram    String?
+  whatsapp     String?
+  ifoodUrl     String?
+  aboutUs      String?
+  websiteUrl   String?
+  openingHours Json?
+  rating       Float?
+  category     Category
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Category {
+  BAKERY
+  PIZZERIA
+  RESTAURANT
+  CAFE
+  BAR
+  OTHER
 }
