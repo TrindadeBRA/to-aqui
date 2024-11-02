@@ -13,16 +13,23 @@ import {
   LockClosedIcon,
   MixerVerticalIcon,
   RocketIcon,
+  MoonIcon,
+  SunIcon,
 } from '@radix-ui/react-icons'
 import { Session } from 'next-auth'
 import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useTheme } from 'next-themes'
 
 type UserDropdownProps = {
   user: Session['user']
 }
 
 export function UserDropdown({ user }: UserDropdownProps) {
-  if (!user) return
+  const router = useRouter()
+  const { theme, setTheme } = useTheme()
+
+  if (!user) return null
 
   return (
     <DropdownMenu>
@@ -57,19 +64,36 @@ export function UserDropdown({ user }: UserDropdownProps) {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => {
+            router.push('/app/settings')
+          }}>
             <MixerVerticalIcon className="w-3 h-3 mr-3" />
-            Configuraçoes
+            Configurações
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => {
+            router.push('/app/settings/billing')
+          }}>
             <RocketIcon className="w-3 h-3 mr-3" />
-            Upgrade
+            Planos
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+            {theme === 'dark' ? (
+              <>
+                <SunIcon className="w-3 h-3 mr-3" />
+                Modo Claro
+              </>
+            ) : (
+              <>
+                <MoonIcon className="w-3 h-3 mr-3" />
+                Modo Escuro
+              </>
+            )}
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => signOut()}>
-          <LockClosedIcon className="w-3 h-3 mr-3" />
-          Log out
+        <DropdownMenuItem className="text-red-500" onClick={() => signOut()}>
+          <LockClosedIcon className="w-3 h-3 mr-3 text-red-500 hover:text-red-500" />
+          <span className="text-red-500 hover:text-red-500">Sair</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
