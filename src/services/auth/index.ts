@@ -79,6 +79,7 @@ export const {
       if (user) {
         token.userId = user.id
         token.email = user.email
+        token.role = (user as any).role
       }
 
       if (trigger === 'update' && session) {
@@ -97,6 +98,7 @@ export const {
             stripeSubscriptionId: true,
             stripePriceId: true,
             stripeSubscriptionStatus: true,
+            role: true,
           },
         })
 
@@ -104,6 +106,7 @@ export const {
         session.user.stripeSubscriptionId = user?.stripeSubscriptionId || null
         session.user.stripePriceId = user?.stripePriceId || null
         session.user.stripeCustomerId = user?.stripeCustomerId || null
+        session.user.role = user?.role || 'USER'
       }
       return session
     },

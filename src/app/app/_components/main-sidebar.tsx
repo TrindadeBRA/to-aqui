@@ -16,7 +16,7 @@ import { HomeIcon, MixerVerticalIcon } from '@radix-ui/react-icons'
 import { UserDropdown } from './user-dropdown'
 import { Logo } from '@/components/logo'
 import { Session } from 'next-auth'
-import { CheckCheckIcon, StoreIcon } from 'lucide-react'
+import { CheckCheckIcon, StoreIcon, ShieldIcon } from 'lucide-react'
 
 type MainSidebarProps = {
   user: Session['user']
@@ -37,6 +37,15 @@ export function MainSidebar({ user }: MainSidebarProps) {
       <DashboardSidebarMain className="flex flex-col flex-grow">
         <DashboardSidebarNav>
           <DashboardSidebarNavMain>
+            {user.role === 'ADMIN' && (
+              <DashboardSidebarNavLink
+                href="/app/admin"
+                active={isActive('/app/admin')}
+              >
+                <ShieldIcon className="size-4 mr-3" />
+                Administração
+              </DashboardSidebarNavLink>
+            )}
             <DashboardSidebarNavLink href="/app" active={isActive('/app')}>
               <HomeIcon className="size-4 mr-3" />
               Dashboard
@@ -45,8 +54,8 @@ export function MainSidebar({ user }: MainSidebarProps) {
               <CheckCheckIcon className="size-4 mr-3" />
               Tarefas
             </DashboardSidebarNavLink>
-            <DashboardSidebarNavLink 
-              href="/app/establishments" 
+            <DashboardSidebarNavLink
+              href="/app/establishments"
               active={isActive('/app/establishments')}
             >
               <StoreIcon className="size-4 mr-3" />
