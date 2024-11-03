@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from './_components/theme-provider'
@@ -9,7 +9,7 @@ import { SessionProvider } from 'next-auth/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'ToAqui Online | Cardápio Digital Profissional para seu Estabelecimento',
   description: 'ToAqui Online oferece uma plataforma digital para restaurantes, bares e cafés, facilitando a presença online e a interação com clientes. Cadastre-se e tenha seu cardápio digital em minutos!',
   openGraph: {
@@ -28,16 +28,15 @@ export const metadata = {
     apple: [
       { rel: 'apple-touch-icon', url: `${process.env.NEXT_PUBLIC_APP_URL}/assets/favicon.ico`, sizes: 'any' },
     ],
-    android: [
-      { rel: 'icon', url: `${process.env.NEXT_PUBLIC_APP_URL}/assets/favicon.ico`, sizes: 'any', type: 'image/x-icon' },
-    ],
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: 'no',
-  },
+}
+
+export const viewport: Viewport = {
+  themeColor: '#2166f2',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 }
 
 
