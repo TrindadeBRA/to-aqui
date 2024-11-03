@@ -1,11 +1,11 @@
 import NextAuth from 'next-auth'
-import EmailProvider from 'next-auth/providers/nodemailer'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
 import { PrismaAdapter } from '@auth/prisma-adapter'
+import { compareSync } from 'bcrypt-ts'
 import { prisma } from '../database'
 import { createStripeCustomer } from '../stripe'
-import { compareSync } from 'bcrypt-ts'
+
 
 export const {
   handlers: { GET, POST },
@@ -14,24 +14,10 @@ export const {
   pages: {
     signIn: '/login',
     signOut: '/logout',
-    // error: '/auth?v=error',
-    // verifyRequest: '/auth?v=verifyRequest',
     newUser: '/app',
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-    EmailProvider({
-      server: {
-        host: 'sandbox.smtp.mailtrap.io',
-        port: 587,
-        auth: {
-          user: '074245c3a9070d',
-          pass: 'ad803e39bef73e',
-        },
-      },
-      from: process.env.EMAIL_FROM,
-      maxAge: 24 * 60 * 60,
-    }),
     CredentialsProvider({
       credentials: {
         email: {},
@@ -73,7 +59,7 @@ export const {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60,
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.AUTH_SECRET,
   callbacks: {
     async jwt({ token, user, trigger, session }) {
       if (user) {
@@ -107,8 +93,11 @@ export const {
         session.user.stripePriceId = user?.stripePriceId || null
         session.user.stripeCustomerId = user?.stripeCustomerId || null
         session.user.role = user?.role || 'USER'
+
+        // console.log("session", session)
       }
       return session
     },
+    authorized: ({ auth }) => auth?.user?.role === "ADMIN",
   },
 })

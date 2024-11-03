@@ -6,6 +6,8 @@ import { MobileNav } from './_components/mobile-nav'
 export default async function Layout({ children }: PropsWithChildren) {
   const session = await auth()
 
+  // console.log("session", session)
+
   if (!session?.user) {
     return <div>Loading...</div>
   }
