@@ -4,10 +4,16 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useForm } from 'react-hook-form'
-import { createUser } from '../actions'
+import { createUser, updateUser } from '../actions'
 
 interface UserFormProps {
   onSuccess: () => void
+  initialData?: {
+    id?: string
+    name: string
+    email: string
+    role: string
+  }
 }
 
 interface FormData {
@@ -17,22 +23,26 @@ interface FormData {
   password: string
 }
 
-export function UserForm({ onSuccess }: UserFormProps) {
+export function UserForm({ onSuccess, initialData }: UserFormProps) {
   const form = useForm<FormData>({
     defaultValues: {
-      name: '',
-      email: '',
-      role: 'USER',
+      name: initialData?.name || '',
+      email: initialData?.email || '',
+      role: initialData?.role || 'USER',
       password: ''
     }
   })
 
   const onSubmit = async (data: FormData) => {
     try {
-      await createUser(data)
+      if (initialData?.id) {
+        await updateUser({ id: initialData.id, ...data })
+      } else {
+        await createUser(data)
+      }
       onSuccess()
     } catch (error) {
-      console.error('Erro ao criar usuário:', error)
+      console.error('Erro ao salvar usuário:', error)
     }
   }
 
@@ -41,7 +51,9 @@ export function UserForm({ onSuccess }: UserFormProps) {
       <div className="space-y-2">
         <Input placeholder="Nome" {...form.register('name')} />
         <Input placeholder="Email" type="email" {...form.register('email')} />
-        <Input placeholder="Senha" type="password" {...form.register('password')} />
+        {!initialData && (
+          <Input placeholder="Senha" type="password" {...form.register('password')} />
+        )}
         <Select {...form.register('role')}>
           <SelectTrigger>
             <SelectValue placeholder="Selecione uma função" />

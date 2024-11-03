@@ -21,6 +21,7 @@ import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { deleteUser } from '../actions'
 import { useToast } from '@/components/ui/use-toast'
 import { useRouter } from 'next/navigation'
+import { UserUpsertSheet } from './user-upsert-sheet'
 
 interface User {
   id: string
@@ -87,6 +88,11 @@ export function UserDataTable({ data }: UserDataTableProps) {
                       Copiar ID
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
+                    <UserUpsertSheet user={user}>
+                      <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                        Editar
+                      </DropdownMenuItem>
+                    </UserUpsertSheet>
                     <DropdownMenuItem onClick={() => handleDeleteUser(user)}>
                       Excluir
                     </DropdownMenuItem>

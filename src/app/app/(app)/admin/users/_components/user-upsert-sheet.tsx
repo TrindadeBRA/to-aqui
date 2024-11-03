@@ -6,13 +6,18 @@ import { UserForm } from './user-form'
 
 interface UserUpsertSheetProps {
   children: React.ReactNode
+  user?: {
+    id: string
+    name: string
+    email: string
+    role: string
+  }
 }
 
-export function UserUpsertSheet({ children }: UserUpsertSheetProps) {
+export function UserUpsertSheet({ children, user }: UserUpsertSheetProps) {
   const [open, setOpen] = useState(false)
 
   const handleSuccess = () => {
-    console.log('Tentando fechar o sheet...') // Debug
     setOpen(false)
   }
 
@@ -21,9 +26,9 @@ export function UserUpsertSheet({ children }: UserUpsertSheetProps) {
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent className="w-full sm:max-w-[480px]">
         <SheetHeader>
-          <SheetTitle>Novo Usuário</SheetTitle>
+          <SheetTitle>{user ? 'Editar Usuário' : 'Novo Usuário'}</SheetTitle>
         </SheetHeader>
-        <UserForm onSuccess={handleSuccess} />
+        <UserForm onSuccess={handleSuccess} initialData={user} />
       </SheetContent>
     </Sheet>
   )

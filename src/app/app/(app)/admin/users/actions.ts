@@ -19,6 +19,13 @@ type CreateUserData = {
     password: string
 }
 
+type UpdateUserData = {
+    id: string
+    name: string
+    email: string
+    role: string
+}
+
 export async function getUsers(): Promise<User[]> {
     try {
         const users = await prisma.user.findMany({
@@ -105,6 +112,53 @@ export async function createUser(data: CreateUserData) {
             throw new Error(error.errors[0].message)
         }
         console.error('Erro ao criar usuário:', error)
+        throw error
+    }
+}
+
+const updateUserSchema = z.object({
+    name: z.string()
+        .min(1, 'O nome é obrigatório')
+        .min(3, 'O nome deve ter pelo menos 3 caracteres')
+        .max(100, 'O nome deve ter no máximo 100 caracteres')
+        .regex(/^[a-zA-ZÀ-ÿ\s]*$/, 'O nome deve conter apenas letras'),
+    email: z.string()
+        .min(1, 'O email é obrigatório')
+        .email('Formato de email inválido')
+        .max(150, 'O email deve ter no máximo 150 caracteres'),
+    role: z.enum(['ADMIN', 'USER'], {
+        errorMap: () => ({ message: 'Papel de usuário inválido' })
+    })
+})
+
+export async function updateUser(data: UpdateUserData) {
+    try {
+        const { id, ...updateData } = data
+        const validatedData = updateUserSchema.parse(updateData)
+
+        const existingUser = await prisma.user.findUnique({
+            where: { email: validatedData.email, NOT: { id } },
+        })
+
+        if (existingUser) {
+            throw new Error('Este email já está em uso')
+        }
+
+        const user = await prisma.user.update({
+            where: { id },
+            data: {
+                name: validatedData.name,
+                email: validatedData.email,
+                role: validatedData.role as Role,
+            },
+        })
+
+        return { success: true, user }
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            throw new Error(error.errors[0].message)
+        }
+        console.error('Erro ao atualizar usuário:', error)
         throw error
     }
 } 
