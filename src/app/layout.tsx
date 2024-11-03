@@ -32,6 +32,12 @@ export const metadata = {
       { rel: 'icon', url: `${process.env.NEXT_PUBLIC_APP_URL}/assets/favicon.ico`, sizes: 'any', type: 'image/x-icon' },
     ],
   },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: 'no',
+  },
 }
 
 

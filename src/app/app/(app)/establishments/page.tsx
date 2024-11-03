@@ -22,7 +22,7 @@ export default async function Page() {
           <EstablishmentUpsertSheet>
             <Button variant="outline" size="sm">
               <PlusIcon className="w-4 h-4 mr-3" />
-              Adicionar estabelecimento
+              Add estabelecimento
             </Button>
           </EstablishmentUpsertSheet>
         </DashboardPageHeaderNav>
