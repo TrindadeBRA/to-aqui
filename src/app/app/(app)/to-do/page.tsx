@@ -17,12 +17,12 @@ export default async function Page() {
   return (
     <DashboardPage>
       <DashboardPageHeader>
-        <DashboardPageHeaderTitle>✅ Tarefas</DashboardPageHeaderTitle>
+        <DashboardPageHeaderTitle>Tarefas</DashboardPageHeaderTitle>
         <DashboardPageHeaderNav>
           <TodoUpsertSheet>
             <Button variant="outline" size="sm">
               <PlusIcon className="w-4 h-4 mr-3" />
-              Add tarefa
+              Tarefa
             </Button>
           </TodoUpsertSheet>
         </DashboardPageHeaderNav>
