@@ -21,7 +21,7 @@ import { useToast } from '@/components/ui/use-toast'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { deleteUser } from '../actions'
-import { Eye, MoreHorizontal, Pencil } from 'lucide-react'
+import { Eye, MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
 
 interface User {
   id: string
@@ -87,6 +87,16 @@ export function UserDataTable({ data }: UserDataTableProps) {
                       <span className="sr-only">Editar</span>
                     </Button>
                   </Link>
+
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-8 w-8"
+                    onClick={() => handleDeleteUser(user)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    <span className="sr-only">Excluir</span>
+                  </Button>
 
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>

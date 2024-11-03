@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import {
   DashboardPage,
   DashboardPageHeader,
@@ -9,27 +8,20 @@ import {
   DashboardPageMain,
 } from '@/components/dashboard/page'
 import { Button } from '@/components/ui/button'
-import { PlusIcon } from '@radix-ui/react-icons'
-import { getUsers } from './actions'
-// import { UserUpsertSheet } from './_components/user-upsert-sheet'
-import { UserDataTable } from './_components/user-data-table'
+import { useQuery } from '@tanstack/react-query'
+import { PlusIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { UserDataTable } from './_components/user-data-table'
+import { UserDataTableSkeleton } from './_components/user-data-table-skeleton'
+import { getUsers } from './actions'
 
 export default function Page() {
-  const [users, setUsers] = useState<any[]>([])
   const router = useRouter()
-
-  useEffect(() => {
-    const loadUsers = async () => {
-      const data = await getUsers()
-      if (data) setUsers(data)
-    }
-    loadUsers()
-  }, [])
-
-  if (!users.length) {
-    return <div>Nenhum usuário encontrado</div>
-  }
+  
+  const { data: users, isLoading } = useQuery({
+    queryKey: ['usersList'],
+    queryFn: () => getUsers()
+  })
 
   const handleClick = () => {
     router.push('/app/admin/users/create')
@@ -47,7 +39,11 @@ export default function Page() {
         </DashboardPageHeaderNav>
       </DashboardPageHeader>
       <DashboardPageMain>
-        <UserDataTable data={users} />
+        {isLoading ? (
+          <UserDataTableSkeleton />
+        ) : (
+          <UserDataTable data={users as any[]} />
+        )}
       </DashboardPageMain>
     </DashboardPage>
   )

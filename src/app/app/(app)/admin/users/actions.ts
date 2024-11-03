@@ -165,8 +165,6 @@ export async function updateUser(data: UpdateUserData) {
 
 export async function getUserById(id: string) {
     try {
-        // Implemente aqui a lógica para buscar um usuário específico
-        // Exemplo:
         const user = await prisma.user.findUnique({
             where: {
                 id

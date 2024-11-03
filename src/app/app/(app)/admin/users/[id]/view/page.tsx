@@ -1,18 +1,21 @@
+'use client'
+
 import {
-  DashboardPage,
-  DashboardPageHeader,
-  DashboardPageHeaderTitle,
-  DashboardPageMain,
+    DashboardPage,
+    DashboardPageHeader,
+    DashboardPageHeaderTitle,
+    DashboardPageMain,
 } from '@/components/dashboard/page'
-import { getUserById } from '../../actions'
+import { useQuery } from '@tanstack/react-query'
 import { UserForm } from '../../_components/user-form'
+import { getUserById } from '../../actions'
 
-export default async function UserViewPage({ params }: { params: { id: string } }) {
-  const user = await getUserById(params.id)
+export default function UserViewPage({ params }: { params: { id: string } }) {
 
-  if (!user) {
-    return <div>Usuário não encontrado</div>
-  }
+  const { data: user, isLoading } = useQuery({
+    queryKey: ['userView', params.id],
+    queryFn: () => getUserById(params.id)
+  })
 
   return (
     <DashboardPage>
@@ -20,7 +23,13 @@ export default async function UserViewPage({ params }: { params: { id: string } 
         <DashboardPageHeaderTitle>Visualizar Usuário</DashboardPageHeaderTitle>
       </DashboardPageHeader>
       <DashboardPageMain>
-        <UserForm user={user} mode="view" />
+        {isLoading ? (
+          <div className="flex items-center justify-center min-h-[400px] text-yellow-500">
+            Carregando...
+          </div>
+        ) : (
+          <UserForm user={user} mode="view" />
+        )}
       </DashboardPageMain>
     </DashboardPage>
   )
