@@ -39,8 +39,8 @@ export function MainSidebar({ user }: MainSidebarProps) {
           <DashboardSidebarNavMain>
             {user.role === 'ADMIN' && (
               <DashboardSidebarNavLink
-                href="/app/admin"
-                active={isActive('/app/admin')}
+                href="/app/admin/users"
+                active={isActive('/app/admin/users')}
               >
                 <ShieldIcon className="size-4 mr-3" />
                 Administração

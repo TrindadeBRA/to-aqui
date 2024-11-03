@@ -1,13 +1,6 @@
 'use client'
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,12 +9,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Button } from '@/components/ui/button'
-import { DotsHorizontalIcon } from '@radix-ui/react-icons'
-import { deleteUser } from '../actions'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { useToast } from '@/components/ui/use-toast'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { UserUpsertSheet } from './user-upsert-sheet'
+import { deleteUser } from '../actions'
+import { Eye, MoreHorizontal, Pencil } from 'lucide-react'
 
 interface User {
   id: string
@@ -36,7 +36,7 @@ interface UserDataTableProps {
 
 export function UserDataTable({ data }: UserDataTableProps) {
   const { toast } = useToast()
-  const router = useRouter  ()
+  const router = useRouter()
   const handleDeleteUser = async (user: User) => {
     try {
       await deleteUser(user.id)
@@ -63,7 +63,7 @@ export function UserDataTable({ data }: UserDataTableProps) {
             <TableHead>Nome</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Função</TableHead>
-            <TableHead className="w-[80px]">Ações</TableHead>
+            <TableHead className="w-[150px]">Ações</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -73,31 +73,48 @@ export function UserDataTable({ data }: UserDataTableProps) {
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.role}</TableCell>
               <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                      <span className="sr-only">Abrir menu</span>
-                      <DotsHorizontalIcon className="h-4 w-4" />
+                <div className="flex items-center gap-2">
+                  <Link href={`/app/admin/users/${user.id}/view`}>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <Eye className="h-4 w-4" />
+                      <span className="sr-only">Visualizar</span>
                     </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Ações</DropdownMenuLabel>
-                    <DropdownMenuItem
-                      onClick={() => navigator.clipboard.writeText(user.id)}
-                    >
-                      Copiar ID
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <UserUpsertSheet user={user}>
-                      <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                  </Link>
+                  
+                  <Link href={`/app/admin/users/${user.id}/edit`}>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <Pencil className="h-4 w-4" />
+                      <span className="sr-only">Editar</span>
+                    </Button>
+                  </Link>
+
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Abrir menu</span>
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                      <DropdownMenuItem
+                        onClick={() => navigator.clipboard.writeText(user.id)}
+                      >
+                        Copiar ID
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={() => router.push(`/app/admin/users/${user.id}/view`)}>
+                        Visualizar
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => router.push(`/app/admin/users/${user.id}/edit`)}>
                         Editar
                       </DropdownMenuItem>
-                    </UserUpsertSheet>
-                    <DropdownMenuItem onClick={() => handleDeleteUser(user)}>
-                      Excluir
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                      <DropdownMenuItem onClick={() => handleDeleteUser(user)}>
+                        Excluir
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               </TableCell>
             </TableRow>
           ))}

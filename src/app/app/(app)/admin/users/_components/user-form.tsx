@@ -1,70 +1,84 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { Form } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 import { createUser, updateUser } from '../actions'
 
 interface UserFormProps {
-  onSuccess: () => void
-  initialData?: {
-    id?: string
-    name: string
-    email: string
-    role: string
-  }
+  user?: any // Substitua 'any' pelo seu tipo de usuário
+  mode: 'create' | 'edit' | 'view'
 }
 
-interface FormData {
-  name: string
-  email: string
-  role: string
-  password: string
-}
-
-export function UserForm({ onSuccess, initialData }: UserFormProps) {
-  const form = useForm<FormData>({
+export function UserForm({ user, mode }: UserFormProps) {
+  const router = useRouter()
+  const isViewMode = mode === 'view'
+  
+  const form = useForm({
     defaultValues: {
-      name: initialData?.name || '',
-      email: initialData?.email || '',
-      role: initialData?.role || 'USER',
-      password: ''
+      name: user?.name ?? '',
+      email: user?.email ?? '',
+      // adicione outros campos conforme necessário
     }
   })
 
-  const onSubmit = async (data: FormData) => {
+  async function onSubmit(data: any) {
     try {
-      if (initialData?.id) {
-        await updateUser({ id: initialData.id, ...data })
-      } else {
+      if (mode === 'create') {
         await createUser(data)
+      } else if (mode === 'edit') {
+        await updateUser(data)
       }
-      onSuccess()
+      
+      router.push('/admin/users')
+      router.refresh()
     } catch (error) {
-      console.error('Erro ao salvar usuário:', error)
+      console.error('Erro ao processar usuário:', error)
     }
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
-      <div className="space-y-2">
-        <Input placeholder="Nome" {...form.register('name')} />
-        <Input placeholder="Email" type="email" {...form.register('email')} />
-        {!initialData && (
-          <Input placeholder="Senha" type="password" {...form.register('password')} />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="space-y-2">
+            <label htmlFor="name">Nome</label>
+            <Input
+              {...form.register('name')}
+              disabled={isViewMode}
+              placeholder="Digite o nome"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="email">Email</label>
+            <Input
+              {...form.register('email')}
+              disabled={isViewMode}
+              placeholder="Digite o email"
+            />
+          </div>
+          
+          {/* Adicione outros campos conforme necessário */}
+        </div>
+
+        {!isViewMode && (
+          <div className="flex justify-end gap-2">
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={() => router.back()}
+            >
+              Cancelar
+            </Button>
+            <Button type="submit">
+              {mode === 'create' ? 'Criar' : 'Salvar'}
+            </Button>
+          </div>
         )}
-        <Select {...form.register('role')}>
-          <SelectTrigger>
-            <SelectValue placeholder="Selecione uma função" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="ADMIN">Administrador</SelectItem>
-            <SelectItem value="USER">Usuário</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      <Button type="submit" className="w-full">Salvar</Button>
-    </form>
+      </form>
+    </Form>
   )
 } 

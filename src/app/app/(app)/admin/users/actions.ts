@@ -161,4 +161,20 @@ export async function updateUser(data: UpdateUserData) {
         console.error('Erro ao atualizar usuário:', error)
         throw error
     }
+}
+
+export async function getUserById(id: string) {
+    try {
+        // Implemente aqui a lógica para buscar um usuário específico
+        // Exemplo:
+        const user = await prisma.user.findUnique({
+            where: {
+                id
+            }
+        })
+        return user
+    } catch (error) {
+        console.error('Erro ao buscar usuário:', error)
+        return null
+    }
 } 
