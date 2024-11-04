@@ -22,6 +22,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { deleteUser } from '../actions'
 import { Eye, MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
+import { DeleteUserAlert } from './delete-user-alert'
 
 interface User {
   id: string
@@ -37,99 +40,102 @@ interface UserDataTableProps {
 export function UserDataTable({ data }: UserDataTableProps) {
   const { toast } = useToast()
   const router = useRouter()
-  const handleDeleteUser = async (user: User) => {
-    try {
-      await deleteUser(user.id)
+  const queryClient = useQueryClient()
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [userToDelete, setUserToDelete] = useState<User | null>(null)
+
+  const { mutate: deleteUserMutation } = useMutation({
+    mutationFn: (userId: string) => deleteUser(userId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['usersList'] })
       toast({
         title: 'Usuário excluído com sucesso',
         variant: 'default',
       })
-      // Aqui você pode adicionar lógica para atualizar a lista
       router.refresh()
-    } catch (error) {
+    },
+    onError: () => {
       toast({
-        title: 'Erro ao excluir usuário',
+        title: 'Erro ao excluir usuário', 
         description: 'Não foi possível excluir o usuário.',
         variant: 'destructive',
       })
     }
+  })
+
+  const handleDeleteUser = (user: User) => {
+    setUserToDelete(user)
+    setIsDeleteDialogOpen(true)
+  }
+
+  const confirmDelete = () => {
+    if (userToDelete) {
+      deleteUserMutation(userToDelete.id)
+      setIsDeleteDialogOpen(false)
+      setUserToDelete(null)
+    }
   }
 
   return (
-    <div className="rounded-md border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Nome</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Função</TableHead>
-            <TableHead className="w-[150px]">Ações</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data.map((user) => (
-            <TableRow key={user.id}>
-              <TableCell>{user.name}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>{user.role}</TableCell>
-              <TableCell>
-                <div className="flex items-center gap-2">
-                  <Link href={`/app/admin/users/${user.id}/view`}>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                      <Eye className="h-4 w-4" />
-                      <span className="sr-only">Visualizar</span>
-                    </Button>
-                  </Link>
-                  
-                  <Link href={`/app/admin/users/${user.id}/edit`}>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                      <Pencil className="h-4 w-4" />
-                      <span className="sr-only">Editar</span>
-                    </Button>
-                  </Link>
-
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    className="h-8 w-8"
-                    onClick={() => handleDeleteUser(user)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                    <span className="sr-only">Excluir</span>
-                  </Button>
-
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
-                        <span className="sr-only">Abrir menu</span>
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Ações</DropdownMenuLabel>
-                      <DropdownMenuItem
-                        onClick={() => navigator.clipboard.writeText(user.id)}
-                      >
-                        Copiar ID
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => router.push(`/app/admin/users/${user.id}/view`)}>
-                        Visualizar
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => router.push(`/app/admin/users/${user.id}/edit`)}>
-                        Editar
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleDeleteUser(user)}>
-                        Excluir
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </TableCell>
+    <>
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Nome</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Função</TableHead>
+              <TableHead className="w-[150px]">Ações</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+          </TableHeader>
+          <TableBody>
+            {data.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell>{user.name}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.role}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                          <span className="sr-only">Abrir menu</span>
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                        <DropdownMenuItem
+                          onClick={() => navigator.clipboard.writeText(user.id)}
+                        >
+                          Copiar ID
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={() => router.push(`/app/admin/users/${user.id}/view`)}>
+                          Visualizar
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => router.push(`/app/admin/users/${user.id}/edit`)}>
+                          Editar
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDeleteUser(user)}>
+                          Excluir
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      <DeleteUserAlert
+        isOpen={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        onConfirm={confirmDelete}
+        user={userToDelete}
+      />
+    </>
   )
 } 

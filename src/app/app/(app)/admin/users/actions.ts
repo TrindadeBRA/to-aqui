@@ -1,6 +1,7 @@
 'use server'
 
 import { prisma } from "@/services/database"
+import { createStripeCustomer } from "@/services/stripe"
 import { Role } from "@prisma/client"
 import * as bcrypt from 'bcrypt-ts'
 import { z } from 'zod'
@@ -106,7 +107,13 @@ export async function createUser(data: CreateUserData) {
             },
         })
 
+        await createStripeCustomer({
+            name: validatedData.name ?? undefined,
+            email: validatedData.email ?? '',
+        })
+
         return { success: true, user }
+
     } catch (error) {
         if (error instanceof z.ZodError) {
             throw new Error(error.errors[0].message)
