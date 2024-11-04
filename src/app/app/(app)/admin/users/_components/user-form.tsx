@@ -1,14 +1,20 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
+import { Form, FormField, FormItem, FormLabel, FormControl } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { createUser, updateUser } from '../actions'
 
 interface UserFormProps {
-  user?: any // Substitua 'any' pelo seu tipo de usuário
+  user?: {
+    id?: string
+    name?: string
+    email?: string
+    role?: 'ADMIN' | 'USER'
+  }
   mode: 'create' | 'edit' | 'view'
 }
 
@@ -18,9 +24,11 @@ export function UserForm({ user, mode }: UserFormProps) {
   
   const form = useForm({
     defaultValues: {
+      id: user?.id ?? '',
       name: user?.name ?? '',
       email: user?.email ?? '',
-      // adicione outros campos conforme necessário
+      password: '',
+      role: user?.role ?? 'USER'
     }
   })
 
@@ -32,7 +40,7 @@ export function UserForm({ user, mode }: UserFormProps) {
         await updateUser(data)
       }
       
-      router.push('/admin/users')
+      router.push('/app/admin/users')
       router.refresh()
     } catch (error) {
       console.error('Erro ao processar usuário:', error)
@@ -43,25 +51,86 @@ export function UserForm({ user, mode }: UserFormProps) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="space-y-2">
-            <label htmlFor="name">Nome</label>
-            <Input
-              {...form.register('name')}
-              disabled={isViewMode}
-              placeholder="Digite o nome"
+          {(mode === 'edit' || mode === 'view') && (
+            <FormField
+              control={form.control}
+              name="id"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>ID</FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled placeholder="ID do usuário" />
+                  </FormControl>
+                </FormItem>
+              )}
             />
-          </div>
+          )}
 
-          <div className="space-y-2">
-            <label htmlFor="email">Email</label>
-            <Input
-              {...form.register('email')}
-              disabled={isViewMode}
-              placeholder="Digite o email"
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nome</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled={isViewMode} placeholder="Digite o nome" />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled={isViewMode} placeholder="Digite o email" type="email" />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          {(mode === 'create' || mode === 'edit') && (
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Senha</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="password" placeholder="Digite a senha" />
+                  </FormControl>
+                </FormItem>
+              )}
             />
-          </div>
-          
-          {/* Adicione outros campos conforme necessário */}
+          )}
+
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Perfil</FormLabel>
+                <Select 
+                  disabled={isViewMode} 
+                  onValueChange={field.onChange} 
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione um perfil" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="USER">Usuário</SelectItem>
+                    <SelectItem value="ADMIN">Administrador</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
         </div>
 
         {!isViewMode && (
