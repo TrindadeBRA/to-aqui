@@ -1,3 +1,5 @@
+'use client'
+
 import {
   DashboardPage,
   DashboardPageHeader,
@@ -8,13 +10,12 @@ import { getUserById } from '../../actions'
 import { UserForm } from '../../_components/user-form'
 import { useQuery } from '@tanstack/react-query'
 
-export default async function UserEditPage({ params }: { params: { id: string } }) {
+export default function UserEditPage({ params }: { params: { id: string } }) {
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['userEdit', params.id],
     queryFn: () => getUserById(params.id)
   })
-
 
   return (
     <DashboardPage>
