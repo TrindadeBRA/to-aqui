@@ -16,7 +16,7 @@ import { HomeIcon, MixerVerticalIcon } from '@radix-ui/react-icons'
 import { UserDropdown } from './user-dropdown'
 import { Logo } from '@/components/logo'
 import { Session } from 'next-auth'
-import { CheckCheckIcon, StoreIcon, ShieldIcon } from 'lucide-react'
+import { CheckCheckIcon, StoreIcon, ShieldIcon, UsersIcon, AppWindow, ImagesIcon } from 'lucide-react'
 
 type MainSidebarProps = {
   user: Session['user']
@@ -36,16 +36,47 @@ export function MainSidebar({ user }: MainSidebarProps) {
       </DashboardSidebarHeader>
       <DashboardSidebarMain className="flex flex-col flex-grow">
         <DashboardSidebarNav>
-          <DashboardSidebarNavMain>
+          <DashboardSidebarNavMain className="flex flex-col gap-1">
+
             {user.role === 'ADMIN' && (
-              <DashboardSidebarNavLink
-                href="/app/admin/users"
-                active={isActive('/app/admin/users')}
-              >
-                <ShieldIcon className="size-4 mr-3" />
-                Administração
-              </DashboardSidebarNavLink>
+              <div className='mb-4'>
+
+                <DashboardSidebarNavHeaderTitle className='flex flex-row gap-2 items-center mb-2 text-[#2166f2] font-semibold'>
+                  <ShieldIcon className="size-3" />
+                  Menu administrativo
+                </DashboardSidebarNavHeaderTitle>
+
+                  <div className='flex flex-col gap-1'>
+                    <DashboardSidebarNavLink
+                      href="/app/admin/users"
+                      active={pathname.startsWith('/app/admin/users')}
+                    >
+                      <UsersIcon className="size-4 mr-3" />
+                      Usuários
+                    </DashboardSidebarNavLink>
+
+                    <DashboardSidebarNavLink
+                      href="/app/admin/platforms"
+                      active={pathname.startsWith('/app/admin/platforms')}
+                    >
+                      <AppWindow className="size-4 mr-3" />
+                      Plataformas
+                    </DashboardSidebarNavLink>
+
+                    <DashboardSidebarNavLink
+                      href="/app/admin/platforms"
+                      active={pathname.startsWith('/app/admin/platforms')}
+                    >
+                      <ImagesIcon className="size-4 mr-3" />
+                      Mídias
+                    </DashboardSidebarNavLink>
+
+
+                  </div>
+                  <hr className='mt-2'/>
+              </div>
             )}
+
             <DashboardSidebarNavLink href="/app" active={isActive('/app')}>
               <HomeIcon className="size-4 mr-3" />
               Dashboard
