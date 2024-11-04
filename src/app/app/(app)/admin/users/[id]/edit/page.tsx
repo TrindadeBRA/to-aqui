@@ -6,13 +6,15 @@ import {
 } from '@/components/dashboard/page'
 import { getUserById } from '../../actions'
 import { UserForm } from '../../_components/user-form'
+import { useQuery } from '@tanstack/react-query'
 
 export default async function UserEditPage({ params }: { params: { id: string } }) {
-  const user = await getUserById(params.id)
 
-  if (!user) {
-    return <div>Usuário não encontrado</div>
-  }
+  const { data: user, isLoading } = useQuery({
+    queryKey: ['userEdit', params.id],
+    queryFn: () => getUserById(params.id)
+  })
+
 
   return (
     <DashboardPage>
@@ -20,7 +22,13 @@ export default async function UserEditPage({ params }: { params: { id: string } 
         <DashboardPageHeaderTitle>Editar Usuário</DashboardPageHeaderTitle>
       </DashboardPageHeader>
       <DashboardPageMain>
-        <UserForm user={user} mode="edit" />
+        {isLoading ? (
+          <div className="flex items-center justify-center min-h-[400px] text-yellow-500">
+            Carregando...
+          </div>
+        ) : (
+          <UserForm user={user as any} mode="edit" />
+        )}
       </DashboardPageMain>
     </DashboardPage>
   )

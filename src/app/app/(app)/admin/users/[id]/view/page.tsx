@@ -28,7 +28,7 @@ export default function UserViewPage({ params }: { params: { id: string } }) {
             Carregando...
           </div>
         ) : (
-          <UserForm user={user} mode="view" />
+          <UserForm user={user as any} mode="view" />
         )}
       </DashboardPageMain>
     </DashboardPage>
