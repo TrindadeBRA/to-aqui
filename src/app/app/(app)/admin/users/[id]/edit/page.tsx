@@ -9,6 +9,7 @@ import {
 import { getUserById } from '../../actions'
 import { UserForm } from '../../_components/user-form'
 import { useQuery } from '@tanstack/react-query'
+import { UserFormSkeleton } from '../../_components/user-form-skeleton'
 
 export default function UserEditPage({ params }: { params: { id: string } }) {
 
@@ -24,9 +25,7 @@ export default function UserEditPage({ params }: { params: { id: string } }) {
       </DashboardPageHeader>
       <DashboardPageMain>
         {isLoading ? (
-          <div className="flex items-center justify-center min-h-[400px] text-yellow-500">
-            Carregando...
-          </div>
+          <UserFormSkeleton />
         ) : (
           <UserForm user={user as any} mode="edit" />
         )}

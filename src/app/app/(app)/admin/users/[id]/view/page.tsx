@@ -8,6 +8,7 @@ import {
 } from '@/components/dashboard/page'
 import { useQuery } from '@tanstack/react-query'
 import { UserForm } from '../../_components/user-form'
+import { UserFormSkeleton } from '../../_components/user-form-skeleton'
 import { getUserById } from '../../actions'
 
 export default function UserViewPage({ params }: { params: { id: string } }) {
@@ -24,9 +25,7 @@ export default function UserViewPage({ params }: { params: { id: string } }) {
       </DashboardPageHeader>
       <DashboardPageMain>
         {isLoading ? (
-          <div className="flex items-center justify-center min-h-[400px] text-yellow-500">
-            Carregando...
-          </div>
+          <UserFormSkeleton />
         ) : (
           <UserForm user={user as any} mode="view" />
         )}

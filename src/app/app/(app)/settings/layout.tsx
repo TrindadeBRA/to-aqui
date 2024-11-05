@@ -11,7 +11,7 @@ export default function Layout({ children }: PropsWithChildren) {
   return (
     <DashboardPage>
       <DashboardPageHeader>
-        <DashboardPageHeaderTitle>⚙️ Ajustes</DashboardPageHeaderTitle>
+        <DashboardPageHeaderTitle>Ajustes</DashboardPageHeaderTitle>
       </DashboardPageHeader>
       <DashboardPageMain>
         <div className="">
