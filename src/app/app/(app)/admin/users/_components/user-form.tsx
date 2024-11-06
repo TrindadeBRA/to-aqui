@@ -13,7 +13,7 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from '@/components/ui/use-toast'
 import { PasswordInput } from '@/components/ui/password-input'
 import { nameSchema } from '@/app/(auth)/schemas/name-validation'
-import { passwordSchema } from '@/components/ui/password-validation'
+import { passwordSchema } from '@/app/(auth)/schemas/password-validation'
 
 interface UserFormProps {
   user?: {
