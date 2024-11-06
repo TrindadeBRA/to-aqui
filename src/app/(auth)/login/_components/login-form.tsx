@@ -14,7 +14,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { PasswordInput } from '@/components/ui/password-input'
-import { passwordSchema } from '@/components/ui/password-validation'
+import { passwordSchema } from '@/app/(auth)/validation/password-validation'
 
 const loginFormSchema = z.object({
   email: z.string()

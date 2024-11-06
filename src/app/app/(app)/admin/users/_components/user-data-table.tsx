@@ -18,12 +18,11 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { useToast } from '@/components/ui/use-toast'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { deleteUser } from '../actions'
-import { Eye, MoreHorizontal, Pencil, Trash2, TrashIcon } from 'lucide-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Eye, MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { deleteUser } from '../actions'
 import { DeleteUserAlert } from './delete-user-alert'
 
 interface User {
@@ -50,6 +49,7 @@ export function UserDataTable({ data }: UserDataTableProps) {
       queryClient.invalidateQueries({ queryKey: ['usersList'] })
       toast({
         title: 'Usuário excluído com sucesso',
+        description: 'O usuário foi excluído com sucesso.',
         variant: 'default',
       })
       router.refresh()
@@ -106,7 +106,14 @@ export function UserDataTable({ data }: UserDataTableProps) {
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Ações</DropdownMenuLabel>
                         <DropdownMenuItem
-                          onClick={() => navigator.clipboard.writeText(user.id)}
+                          onClick={() => {
+                            navigator.clipboard.writeText(user.id)
+                            toast({
+                              title: 'ID copiado com sucesso',
+                              description: 'O ID foi copiado para a área de transferência.',
+                              variant: 'default',
+                            })
+                          }}
                         >
                           Copiar ID
                         </DropdownMenuItem>

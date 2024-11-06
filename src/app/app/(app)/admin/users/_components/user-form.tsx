@@ -9,9 +9,11 @@ import { useRouter } from 'next/navigation'
 import { createUser, updateUser } from '../actions'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { passwordSchema } from '@/components/ui/password-validation'
+import { passwordSchema } from '@/app/(auth)/validation/password-validation'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from '@/components/ui/use-toast'
+import { PasswordInput } from '@/components/ui/password-input'
+import { nameSchema } from '@/app/(auth)/validation/name-validation'
 
 interface UserFormProps {
   user?: {
@@ -25,7 +27,7 @@ interface UserFormProps {
 
 const userSchema = z.object({
   id: z.string().optional(),
-  name: z.string().min(1, "Nome é obrigatório"),
+  name: nameSchema,
   email: z.string().email("Email inválido"),
   password: passwordSchema,
   role: z.enum(['ADMIN', 'USER'])
@@ -130,7 +132,7 @@ export function UserForm({ user, mode }: UserFormProps) {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled={isViewMode} placeholder="Digite o email" type="email" />
+                  <Input {...field} disabled={isViewMode || mode === 'edit'} placeholder="Digite o email" type="email" />
                 </FormControl>
                 {errors.email && (
                   <p className="text-sm text-red-500">
@@ -149,13 +151,8 @@ export function UserForm({ user, mode }: UserFormProps) {
                 <FormItem>
                   <FormLabel>Senha</FormLabel>
                   <FormControl>
-                    <Input {...field} type="password" placeholder="Digite a senha" />
+                    <PasswordInput {...field} placeholder="Digite a senha" error={errors.password?.message} />
                   </FormControl>
-                  {errors.password && (
-                    <p className="text-sm text-red-500">
-                      {errors.password.message}
-                    </p>
-                  )}
                 </FormItem>
               )}
             />
@@ -172,14 +169,14 @@ export function UserForm({ user, mode }: UserFormProps) {
                   onValueChange={field.onChange} 
                   defaultValue={field.value}
                 >
-                  <FormControl>
+                  <FormControl className="text-xs">
                     <SelectTrigger>
                       <SelectValue placeholder="Selecione um perfil" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="USER">Usuário</SelectItem>
-                    <SelectItem value="ADMIN">Administrador</SelectItem>
+                    <SelectItem value="USER" className="text-xs">Usuário</SelectItem>
+                    <SelectItem value="ADMIN" className="text-xs">Administrador</SelectItem>
                   </SelectContent>
                 </Select>
                 {errors.role && (
@@ -201,7 +198,11 @@ export function UserForm({ user, mode }: UserFormProps) {
             >
               Cancelar
             </Button>
-            <Button type="submit">
+            <Button
+              type="submit" 
+              disabled={createUserMutation.isPending || updateUserMutation.isPending} 
+              className="disabled:cursor-not-allowed"
+            >
               {mode === 'create' ? 'Criar' : 'Salvar'}
             </Button>
           </div>
