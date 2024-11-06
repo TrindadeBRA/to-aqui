@@ -1,14 +1,11 @@
 import { type Metadata } from 'next'
 import Link from 'next/link'
 
-import { Logo } from '@/components/salient/components/Logo'
-import { SlimLayout } from '@/components/salient/components/SlimLayout'
-import { LoginForm } from './_components/login-form'
 export const metadata: Metadata = {
-  title: 'Entrar',
+  title: 'Esqueceu a Senha',
 }
 
-export default function Login() {
+export default function ForgotPassword() {
   return (
     <SlimLayout>
       <div className="flex">
@@ -17,19 +14,18 @@ export default function Login() {
         </Link>
       </div>
       <h2 className="mt-20 text-lg font-semibold text-gray-900">
-        Entre na sua conta
+        Esqueceu sua senha?
       </h2>
       <p className="mt-2 text-sm text-gray-700">
-        Não tem uma conta?{' '}
+        Lembra da sua senha?{' '}
         <Link
-          href="/register"
+          href="/login"
           className="font-medium text-blue-600 hover:underline"
         >
-          Cadastre-se
+          Entrar
         </Link>{' '}
-        para um teste gratuito.
+        na sua conta.
       </p>
-      <LoginForm />
     </SlimLayout>
   )
 }

@@ -21,7 +21,7 @@ import { useToast } from '@/components/ui/use-toast'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { deleteUser } from '../actions'
-import { Eye, MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
+import { Eye, MoreHorizontal, Pencil, Trash2, TrashIcon } from 'lucide-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { DeleteUserAlert } from './delete-user-alert'
@@ -56,7 +56,7 @@ export function UserDataTable({ data }: UserDataTableProps) {
     },
     onError: () => {
       toast({
-        title: 'Erro ao excluir usuário', 
+        title: 'Erro ao excluir usuário',
         description: 'Não foi possível excluir o usuário.',
         variant: 'destructive',
       })
@@ -112,12 +112,15 @@ export function UserDataTable({ data }: UserDataTableProps) {
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => router.push(`/app/admin/users/${user.id}/view`)}>
+                          <Eye width={16} height={16} className='mr-2' />
                           Visualizar
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => router.push(`/app/admin/users/${user.id}/edit`)}>
+                          <Pencil width={16} height={16} className='mr-2' />
                           Editar
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDeleteUser(user)}>
+                        <DropdownMenuItem onClick={() => handleDeleteUser(user)} className='text-destructive  hover:text-destructive'>
+                          <Trash2 width={16} height={16} className='mr-2' />
                           Excluir
                         </DropdownMenuItem>
                       </DropdownMenuContent>
