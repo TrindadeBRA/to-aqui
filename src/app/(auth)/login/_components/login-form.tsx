@@ -13,19 +13,15 @@ import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { PasswordInput } from '@/components/ui/password-input'
+import { passwordSchema } from '@/components/ui/password-validation'
 
 const loginFormSchema = z.object({
   email: z.string()
     .min(1, 'O email é obrigatório')
     .email('Formato de email inválido')
     .max(150, 'O email deve ter no máximo 150 caracteres'),
-  password: z.string()
-    .min(6, 'A senha deve ter pelo menos 6 caracteres')
-    .max(50, 'A senha deve ter no máximo 50 caracteres')
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
-      'A senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número'
-    )
+  password: passwordSchema,
 })
 
 type LoginFormData = z.infer<typeof loginFormSchema>
@@ -35,7 +31,6 @@ export function LoginForm() {
     resolver: zodResolver(loginFormSchema)
   })
   const router = useRouter()
-  const [showPassword, setShowPassword] = useState(false)
 
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
@@ -90,33 +85,12 @@ export function LoginForm() {
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">Senha</Label>
-        <div className="relative">
-          <Input
-            id="password"
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Digite sua senha"
-            className="text-black"
-            {...form.register('password')}
-          />
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="absolute right-2 top-1/2 -translate-y-1/2 hover:bg-transparent"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {!showPassword ? (
-              <EyeOff className="size-5 text-black" />
-            ) : (
-              <Eye className="size-5 text-black" />
-            )}
-          </Button>
-        </div>
-        {form.formState.errors.password && (
-          <p className="text-sm text-red-500">
-            {form.formState.errors.password.message}
-          </p>
-        )}
+        <PasswordInput
+          id="password"
+          placeholder="Digite sua senha"
+          {...form.register('password')}
+          error={form.formState.errors.password?.message}
+        />
       </div>
       <ButtonSalient
         type="submit"

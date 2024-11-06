@@ -7,6 +7,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { createUser, updateUser } from '../actions'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { passwordSchema } from '@/components/ui/password-validation'
+import { useMutation } from '@tanstack/react-query'
+import { toast } from '@/components/ui/use-toast'
 
 interface UserFormProps {
   user?: {
@@ -18,11 +23,20 @@ interface UserFormProps {
   mode: 'create' | 'edit' | 'view'
 }
 
+const userSchema = z.object({
+  id: z.string().optional(),
+  name: z.string().min(1, "Nome é obrigatório"),
+  email: z.string().email("Email inválido"),
+  password: passwordSchema,
+  role: z.enum(['ADMIN', 'USER'])
+})
+
 export function UserForm({ user, mode }: UserFormProps) {
   const router = useRouter()
   const isViewMode = mode === 'view'
   
   const form = useForm({
+    resolver: zodResolver(userSchema),
     defaultValues: {
       id: user?.id ?? '',
       name: user?.name ?? '',
@@ -32,18 +46,43 @@ export function UserForm({ user, mode }: UserFormProps) {
     }
   })
 
-  async function onSubmit(data: any) {
-    try {
-      if (mode === 'create') {
-        await createUser(data)
-      } else if (mode === 'edit') {
-        await updateUser(data)
-      }
-      
+  const { errors } = form.formState
+
+  const createUserMutation = useMutation({
+    mutationFn: createUser,
+    onSuccess: () => {
       router.push('/app/admin/users')
       router.refresh()
-    } catch (error) {
-      console.error('Erro ao processar usuário:', error)
+      toast({
+        title: 'Usuário criado com sucesso',
+        description: 'O usuário foi criado com sucesso',
+      })
+    },
+    onError: (error: any) => {
+      console.error('Erro ao criar usuário:', error)
+    }
+  })
+
+  const updateUserMutation = useMutation({
+    mutationFn: updateUser,
+    onSuccess: () => {
+      router.push('/app/admin/users')
+      router.refresh()
+      toast({
+        title: 'Usuário atualizado com sucesso',
+        description: 'O usuário foi atualizado com sucesso',
+      })
+    },
+    onError: (error: any) => {
+      console.error('Erro ao atualizar usuário:', error)
+    }
+  })
+
+  async function onSubmit(data: any) {
+    if (mode === 'create') {
+      createUserMutation.mutate(data)
+    } else if (mode === 'edit') {
+      updateUserMutation.mutate(data)
     }
   }
 
@@ -75,6 +114,11 @@ export function UserForm({ user, mode }: UserFormProps) {
                 <FormControl>
                   <Input {...field} disabled={isViewMode} placeholder="Digite o nome" />
                 </FormControl>
+                {errors.name && (
+                  <p className="text-sm text-red-500">
+                    {errors.name.message}
+                  </p>
+                )}
               </FormItem>
             )}
           />
@@ -88,6 +132,11 @@ export function UserForm({ user, mode }: UserFormProps) {
                 <FormControl>
                   <Input {...field} disabled={isViewMode} placeholder="Digite o email" type="email" />
                 </FormControl>
+                {errors.email && (
+                  <p className="text-sm text-red-500">
+                    {errors.email.message}
+                  </p>
+                )}
               </FormItem>
             )}
           />
@@ -102,6 +151,11 @@ export function UserForm({ user, mode }: UserFormProps) {
                   <FormControl>
                     <Input {...field} type="password" placeholder="Digite a senha" />
                   </FormControl>
+                  {errors.password && (
+                    <p className="text-sm text-red-500">
+                      {errors.password.message}
+                    </p>
+                  )}
                 </FormItem>
               )}
             />
@@ -128,6 +182,11 @@ export function UserForm({ user, mode }: UserFormProps) {
                     <SelectItem value="ADMIN">Administrador</SelectItem>
                   </SelectContent>
                 </Select>
+                {errors.role && (
+                  <p className="text-sm text-red-500">
+                    {errors.role.message}
+                  </p>
+                )}
               </FormItem>
             )}
           />
