@@ -27,21 +27,53 @@ type UpdateUserData = {
     role: string
 }
 
-export async function getUsers(): Promise<User[]> {
-    try {
-        const users = await prisma.user.findMany({
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                role: true,
-            }
-        })
-        return users as User[]
-    } catch (error) {
-        console.error('Erro ao buscar usuários:', error)
-        throw new Error('Não foi possível carregar os usuários')
+export async function getUsers(
+  page: number = 1,
+  limit: number = 10,
+  filters: { name?: string; email?: string; role?: string } = {}
+): Promise<{ users: User[]; total: number }> {
+  try {
+    const skip = (page - 1) * limit
+
+    const whereClause: any = {}
+    if (filters.name) {
+      whereClause.name = {
+        contains: filters.name,
+        mode: 'insensitive',
+      }
     }
+    if (filters.email) {
+      whereClause.email = {
+        contains: filters.email,
+        mode: 'insensitive',
+      }
+    }
+    if (filters.role) {
+      whereClause.role = filters.role
+    }
+
+    const [users, total] = await Promise.all([
+      prisma.user.findMany({
+        skip,
+        take: limit,
+        where: whereClause,
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+        },
+      }),
+      prisma.user.count({
+        where: whereClause,
+      }),
+    ])
+
+    return { users: users as User[], total }
+  } catch (error) {
+    console.error('Erro ao buscar usuários:', error)
+    throw new Error('Não foi possível carregar os usuários')
+  }
 }
 
 export async function deleteUser(id: string) {

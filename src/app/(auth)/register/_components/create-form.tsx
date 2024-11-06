@@ -10,8 +10,8 @@ import { register } from '../_actions/register'
 import { PasswordInput } from '@/components/ui/password-input'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { passwordSchema } from '@/app/(auth)/validation/password-validation'
-import { nameSchema } from '@/app/(auth)/validation/name-validation'
+import { passwordSchema } from '@/components/ui/password-validation'
+import { nameSchema } from '../../schemas/name-validation'
 
 const createFormSchema = z.object({
 name: nameSchema,

@@ -21,7 +21,7 @@ export function UserDataTableSkeleton() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {Array.from({ length: 3 }).map((_, index) => (
+          {Array.from({ length: 15 }).map((_, index) => (
             <TableRow key={index}>
               <TableCell><Skeleton className="h-4 w-[150px]" /></TableCell>
               <TableCell><Skeleton className="h-4 w-[200px]" /></TableCell>

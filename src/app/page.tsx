@@ -10,7 +10,7 @@ import { Testimonials } from '@/components/salient/components/Testimonials'
 
 export default function Home() {
   return (
-    <div className="bg-white scroll-smooth">
+    <div className="bg-white">
       <Header />
       <main>
         <Hero />

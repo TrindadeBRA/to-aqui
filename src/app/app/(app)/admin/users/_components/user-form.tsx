@@ -9,11 +9,11 @@ import { useRouter } from 'next/navigation'
 import { createUser, updateUser } from '../actions'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { passwordSchema } from '@/app/(auth)/validation/password-validation'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from '@/components/ui/use-toast'
 import { PasswordInput } from '@/components/ui/password-input'
-import { nameSchema } from '@/app/(auth)/validation/name-validation'
+import { nameSchema } from '@/app/(auth)/schemas/name-validation'
+import { passwordSchema } from '@/components/ui/password-validation'
 
 interface UserFormProps {
   user?: {

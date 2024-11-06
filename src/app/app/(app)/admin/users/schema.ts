@@ -11,4 +11,10 @@ export type UpsertUserSchema = z.infer<typeof upsertUserSchema>
 
 export const deleteUserSchema = z.object({
   id: z.string(),
+})
+
+export const filterSchema = z.object({
+  name: z.string().optional(),
+  email: z.string().email().optional(),
+  role: z.string().optional(),
 }) 

@@ -1,11 +1,11 @@
+import { Toaster } from '@/components/ui/toaster'
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
-import { Toaster } from '@/components/ui/toaster'
-import { ThemeProvider } from './_components/theme-provider'
 import Script from 'next/script'
+import { ThemeProvider } from './_components/theme-provider'
 
-import './globals.css'
 import { SessionProvider } from 'next-auth/react'
+import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -38,7 +38,6 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
 }
-
 
 export default function RootLayout({
   children,
