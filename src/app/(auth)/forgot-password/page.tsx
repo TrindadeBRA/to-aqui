@@ -1,3 +1,5 @@
+import { Logo } from '@/components/salient/components/Logo'
+import { SlimLayout } from '@/components/salient/components/SlimLayout'
 import { type Metadata } from 'next'
 import Link from 'next/link'
 
