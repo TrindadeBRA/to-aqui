@@ -85,6 +85,7 @@ export const {
             stripePriceId: true,
             stripeSubscriptionStatus: true,
             role: true,
+            name: true,
           },
         })
 
@@ -93,7 +94,7 @@ export const {
         session.user.stripePriceId = user?.stripePriceId || null
         session.user.stripeCustomerId = user?.stripeCustomerId || null
         session.user.role = user?.role || 'USER'
-
+        session.user.name = user?.name || ''
         // console.log("session", session)
       }
       return session
