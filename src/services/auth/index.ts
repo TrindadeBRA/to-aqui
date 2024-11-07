@@ -57,7 +57,7 @@ export const {
   },
   session: {
     strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60,
+    maxAge: 6 * 60 * 60,
   },
   secret: process.env.AUTH_SECRET,
   callbacks: {
@@ -95,6 +95,7 @@ export const {
         session.user.stripeCustomerId = user?.stripeCustomerId || null
         session.user.role = user?.role || 'USER'
         session.user.name = user?.name || ''
+        
         // console.log("session", session)
       }
       return session
