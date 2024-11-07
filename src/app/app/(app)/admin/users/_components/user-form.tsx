@@ -20,6 +20,7 @@ interface UserFormProps {
     id?: string
     name?: string
     email?: string
+    password?: string
     role?: 'ADMIN' | 'USER'
   }
   mode: 'create' | 'edit' | 'view'
@@ -29,14 +30,17 @@ const userSchema = z.object({
   id: z.string().optional(),
   name: nameSchema,
   email: z.string().email("Email inválido"),
-  password: passwordSchema,
+  password: z.union([
+    passwordSchema,
+    z.string().optional()
+  ]),
   role: z.enum(['ADMIN', 'USER'])
 })
 
 export function UserForm({ user, mode }: UserFormProps) {
   const router = useRouter()
   const isViewMode = mode === 'view'
-  
+
   const form = useForm({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -81,6 +85,10 @@ export function UserForm({ user, mode }: UserFormProps) {
   })
 
   async function onSubmit(data: any) {
+    if (mode === 'edit' && !data.password) {
+      delete data.password
+    }
+
     if (mode === 'create') {
       createUserMutation.mutate(data)
     } else if (mode === 'edit') {
@@ -164,9 +172,9 @@ export function UserForm({ user, mode }: UserFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Perfil</FormLabel>
-                <Select 
-                  disabled={isViewMode} 
-                  onValueChange={field.onChange} 
+                <Select
+                  disabled={isViewMode}
+                  onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl className="text-xs">
@@ -191,16 +199,16 @@ export function UserForm({ user, mode }: UserFormProps) {
 
         {!isViewMode && (
           <div className="flex justify-end gap-2">
-            <Button 
-              type="button" 
-              variant="outline" 
+            <Button
+              type="button"
+              variant="outline"
               onClick={() => router.back()}
             >
               Cancelar
             </Button>
             <Button
-              type="submit" 
-              disabled={createUserMutation.isPending || updateUserMutation.isPending} 
+              type="submit"
+              disabled={createUserMutation.isPending || updateUserMutation.isPending}
               className="disabled:cursor-not-allowed"
             >
               {mode === 'create' ? 'Criar' : 'Salvar'}

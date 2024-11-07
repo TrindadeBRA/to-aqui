@@ -5,6 +5,7 @@ import { createStripeCustomer } from '@/services/stripe'
 import { hashSync } from 'bcrypt-ts'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { passwordSchema } from '../../schemas/password-validation'
 
 const registerSchema = z.object({
   name: z.string()
@@ -16,13 +17,7 @@ const registerSchema = z.object({
     .min(1, 'O email é obrigatório')
     .email('Formato de email inválido')
     .max(150, 'O email deve ter no máximo 150 caracteres'),
-  password: z.string()
-    .min(6, 'A senha deve ter pelo menos 6 caracteres')
-    .max(50, 'A senha deve ter no máximo 50 caracteres')
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
-      'A senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número'
-    )
+  password: passwordSchema
 })
 
 export async function register(formData: FormData) {

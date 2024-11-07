@@ -100,11 +100,11 @@
 }
  
 /* Adicione isso ao seu arquivo globals.css */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  -webkit-text-fill-color: black !important;
-  -webkit-box-shadow: 0 0 0 30px white inset !important;
-  background-color: white !important;
+div input:-webkit-autofill,
+div input:-webkit-autofill:hover,
+div input:-webkit-autofill:focus,
+div input:-webkit-autofill:active {
+  -webkit-text-fill-color: unset !important;
+  -webkit-box-shadow: unset !important;
+  transition: none!important;;
 }
