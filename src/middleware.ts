@@ -7,12 +7,7 @@ export async function middleware(request: NextRequest) {
     request.cookies.get('__Secure-authjs.session-token')
   const pathname = request.nextUrl.pathname
 
-  if (
-    (pathname === '/magic-link' ||
-      pathname === '/login' ||
-      pathname === '/register') &&
-    token
-  ) {
+  if (pathname === '/login' && token) {
     return NextResponse.redirect(new URL(getUrl('/app')))
   }
 
@@ -41,5 +36,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/app/:path*', '/login', '/register', '/magic-link'],
+  matcher: ['/app/:path*', '/login', '/register'],
 }

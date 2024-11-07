@@ -2,7 +2,7 @@ import { Logo } from '@/components/salient/components/Logo'
 import { SlimLayout } from '@/components/salient/components/SlimLayout'
 import { type Metadata } from 'next'
 import Link from 'next/link'
-import { ForgotPasswordForm } from './_components/forgot-password-form'
+import { NewPasswordForm } from './_components/new-password-form'
 
 export const metadata: Metadata = {
   title: 'Esqueceu a Senha',
@@ -17,19 +17,12 @@ export default function ForgotPassword() {
         </Link>
       </div>
       <h2 className="mt-20 text-lg font-semibold text-gray-900">
-        Esqueceu sua senha?
+        Nova Senha
       </h2>
       <p className="mt-2 text-sm text-gray-700">
-        Lembra da sua senha?{' '}
-        <Link
-          href="/login"
-          className="font-medium text-blue-600 hover:underline"
-        >
-          Entrar
-        </Link>{' '}
-        na sua conta.
+        Digite sua nova senha abaixo para redefinir o acesso à sua conta.
       </p>
-      <ForgotPasswordForm />
+      <NewPasswordForm />
     </SlimLayout>
   )
 }
