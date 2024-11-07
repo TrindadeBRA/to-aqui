@@ -6,12 +6,19 @@ import { addHours } from 'date-fns'
 import nodemailer from 'nodemailer';
 
 export async function requestPasswordReset(email: string) {
-  // Gera um token aleatório
+
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (!user) {
+    throw new Error('Email não encontrado.');
+  }
+
   const token = randomBytes(8).toString('hex')
-  // Define a expiração para 1 hora a partir de agora
+
   const expiresAt = addHours(new Date(), 1)
 
-  // Salva o token e a expiração no banco de dados
   await prisma.passwordReset.create({
     data: {
       email,
@@ -20,17 +27,15 @@ export async function requestPasswordReset(email: string) {
     },
   })
 
-  // Configura o transporte de email usando Mailtrap
   const transporter = nodemailer.createTransport({
-    host: 'sandbox.smtp.mailtrap.io',
-    port: 587,
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT as string, 10),
     auth: {
-      user: '074245c3a9070d', // seu usuário do Mailtrap
-      pass: 'ad803e39bef73e', // sua senha do Mailtrap
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
     },
   })
 
-  // Envia o email com o token usando um template HTML
   await transporter.sendMail({
     from: process.env.EMAIL_FROM,
     to: email,

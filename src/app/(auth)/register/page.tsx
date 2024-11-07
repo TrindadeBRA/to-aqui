@@ -21,16 +21,24 @@ export default function Register() {
         Comece gratuitamente
       </h2>
       <p className="mt-2 text-sm text-gray-700">
-        Já tem uma conta?{' '}
+        Já possui uma conta conosco?{' '}
         <Link
           href="/login"
           className="font-medium text-blue-600 hover:underline"
         >
-          Entre
+          Faça login
         </Link>{' '}
-        na sua conta.
+        para acessar sua área exclusiva.
       </p>
       <CreateForm />
+      <p className="mt-8 text-sm text-gray-700">
+        <Link
+          href="/forgot-password"
+          className="font-medium text-blue-600 hover:underline"
+        >
+          Já tem conta e esqueceu a senha?
+        </Link>
+      </p>
     </SlimLayout>
   )
 }

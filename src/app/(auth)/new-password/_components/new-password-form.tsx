@@ -1,18 +1,18 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { Button as ButtonSalient } from '@/components/salient/components/Button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { PasswordInput } from '@/components/ui/password-input'
 import { toast } from '@/components/ui/use-toast'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { signOut } from 'next-auth/react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { PasswordInput } from '@/components/ui/password-input'
 import { passwordSchema } from '../../schemas/password-validation'
-import { useRouter, useSearchParams } from 'next/navigation'
 import { changePassword } from '../_actions/change-password'
-import { signOut } from 'next-auth/react'
+import { useMutation } from '@tanstack/react-query'
 
 const newPasswordFormSchema = z.object({
   email: z.string()
@@ -43,8 +43,8 @@ export function NewPasswordForm() {
     }
   })
 
-  const handleSubmit = form.handleSubmit(async (data) => {
-    try {
+  const mutation = useMutation({
+    mutationFn: async (data: NewPasswordFormData) => {
       await changePassword(data)
       await signOut({ redirect: false })
       router.push('/login')
@@ -52,7 +52,8 @@ export function NewPasswordForm() {
         title: 'Senha alterada com sucesso!',
         description: 'Você será redirecionado para a página de login.',
       })
-    } catch (error) {
+    },
+    onError: (error: unknown) => {
       console.error('Erro ao enviar email:', error)
       toast({
         title: 'Erro',
@@ -60,6 +61,10 @@ export function NewPasswordForm() {
         variant: 'destructive',
       })
     }
+  })
+
+  const handleSubmit = form.handleSubmit((data) => {
+    mutation.mutate(data)
   })
 
   return (
@@ -119,12 +124,12 @@ export function NewPasswordForm() {
         variant="solid"
         color="blue"
         className="w-full py-3"
-        disabled={form.formState.isSubmitting}
+        disabled={mutation.isPending}
       >
         <span>
-          {form.formState.isSubmitting ? 'Enviando' : 'Enviar'}
+          {mutation.isPending ? 'Enviando' : 'Enviar'}
           <span aria-hidden="true" className="pl-2">
-            {form.formState.isSubmitting ? '...' : '→'}
+            {mutation.isPending ? '...' : '→'}
           </span>
         </span>
       </ButtonSalient>

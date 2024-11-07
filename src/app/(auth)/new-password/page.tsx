@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { NewPasswordForm } from './_components/new-password-form'
 
 export const metadata: Metadata = {
-  title: 'Esqueceu a Senha',
+  title: 'Defina sua nova senha',
 }
 
 export default function ForgotPassword() {

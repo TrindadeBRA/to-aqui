@@ -1,20 +1,18 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { Button as ButtonSalient } from '@/components/salient/components/Button'
 
+import { passwordSchema } from '@/app/(auth)/schemas/password-validation'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { PasswordInput } from '@/components/ui/password-input'
 import { toast } from '@/components/ui/use-toast'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
-import { Eye, EyeOff } from 'lucide-react'
 import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { PasswordInput } from '@/components/ui/password-input'
-import { passwordSchema } from '@/app/(auth)/schemas/password-validation'
+import { useMutation } from '@tanstack/react-query'
 
 const loginFormSchema = z.object({
   email: z.string()
@@ -32,8 +30,8 @@ export function LoginForm() {
   })
   const router = useRouter()
 
-  const handleSubmit = form.handleSubmit(async (data) => {
-    try {
+  const mutation = useMutation({
+    mutationFn: async (data: LoginFormData) => {
       const response = await signIn('credentials', {
         email: data.email,
         password: data.password,
@@ -41,29 +39,31 @@ export function LoginForm() {
         callbackUrl: '/app',
       })
 
-      if (!response) {
-        throw new Error('Falha ao fazer login')
-      }
-
-      if (response.error === 'CredentialsSignin') {
+      if (!response || response.error === 'CredentialsSignin') {
         throw new Error('Email ou senha incorretos. Tente novamente.')
       }
 
+      return response
+    },
+    onSuccess: () => {
       toast({
         title: 'Login realizado com sucesso!',
         description: 'Você será redirecionado em instantes.',
       })
-
       router.push('/app')
-    } catch (error) {
+    },
+    onError: (error: unknown) => {
       console.error('Erro no login:', error)
-
       toast({
         title: 'Erro',
-        description: 'Email ou senha incorretos. Tente novamente.',
+        description: error instanceof Error ? error.message : 'Erro ao fazer login. Tente novamente.',
         variant: 'destructive',
       })
     }
+  })
+
+  const handleSubmit = form.handleSubmit((data) => {
+    mutation.mutate(data)
   })
 
   return (
@@ -97,12 +97,12 @@ export function LoginForm() {
         variant="solid"
         color="blue"
         className="w-full py-3"
-        disabled={form.formState.isSubmitting}
+        disabled={mutation.isPending}
       >
         <span>
-          {form.formState.isSubmitting ? 'Entrando' : 'Entrar'}
+          {mutation.isPending ? 'Entrando' : 'Entrar'}
           <span aria-hidden="true" className="pl-2">
-            {form.formState.isSubmitting ? '...' : '→'}
+            {mutation.isPending ? '...' : '→'}
           </span>
         </span>
       </ButtonSalient>

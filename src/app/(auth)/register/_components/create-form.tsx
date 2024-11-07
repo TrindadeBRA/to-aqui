@@ -12,6 +12,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { passwordSchema } from '@/app/(auth)/schemas/password-validation'
 import { nameSchema } from '../../schemas/name-validation'
+import { useMutation } from '@tanstack/react-query'
 
 const createFormSchema = z.object({
 name: nameSchema,
@@ -34,25 +35,32 @@ const form = useForm<CreateFormData>({
   resolver: zodResolver(createFormSchema)
 })
 
-const handleSubmit = form.handleSubmit(async (data) => {
-  try {
+const mutation = useMutation({
+  mutationFn: async (data: CreateFormData) => {
     const formData = new FormData()
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value)
     })
     await register(formData)
-
+  },
+  onSuccess: () => {
     toast({
       title: 'Conta criada com sucesso!',
       description: 'Você já pode fazer login com suas credenciais.',
     })
-  } catch (error) {
+  },
+  onError: (error: unknown) => {
+    console.error('Erro ao criar conta:', error)
     toast({
       title: 'Erro',
       description: 'Ocorreu um erro ao criar sua conta. Tente novamente.',
       variant: 'destructive',
     })
   }
+})
+
+const handleSubmit = form.handleSubmit((data) => {
+  mutation.mutate(data)
 })
 
 return (
@@ -108,12 +116,12 @@ return (
       variant="solid"
       color="blue"
       className="w-full py-3"
-      disabled={form.formState.isSubmitting}
+      disabled={mutation.isPending}
     >
       <span>
-        {form.formState.isSubmitting ? 'Criando conta' : 'Criar conta'}
+        {mutation.isPending ? 'Criando conta' : 'Criar conta'}
         <span aria-hidden="true" className="pl-2">
-          {form.formState.isSubmitting ? '...' : '→'}
+          {mutation.isPending ? '...' : '→'}
         </span>
       </span>
     </ButtonSalient>

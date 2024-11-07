@@ -9,6 +9,7 @@ import { toast } from '@/components/ui/use-toast'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import { requestPasswordReset } from '../_actions/request-password-reset'
 
 const forgotPasswordFormSchema = z.object({
@@ -25,22 +26,26 @@ export function ForgotPasswordForm() {
     resolver: zodResolver(forgotPasswordFormSchema)
   })
 
-  const handleSubmit = form.handleSubmit(async (data) => {
-    try {
-      await requestPasswordReset(data.email)
+  const mutation = useMutation({
+    mutationFn: requestPasswordReset,
+    onSuccess: () => {
       toast({
         title: 'Email enviado!',
         description: 'Verifique sua caixa de entrada para redefinir sua senha.',
       })
-    } catch (error) {
+    },
+    onError: (error: unknown) => {
       console.error('Erro ao enviar email:', error)
-
       toast({
         title: 'Erro',
-        description: 'Não foi possível enviar o email. Tente novamente.',
+        description: error instanceof Error ? error.message : 'Ocorreu um erro ao alterar a senha. Tente novamente.',
         variant: 'destructive',
       })
     }
+  })
+
+  const handleSubmit = form.handleSubmit((data) => {
+    mutation.mutate(data.email)
   })
 
   return (
@@ -65,12 +70,12 @@ export function ForgotPasswordForm() {
         variant="solid"
         color="blue"
         className="w-full py-3"
-        disabled={form.formState.isSubmitting}
+        disabled={mutation.isPending}
       >
         <span>
-          {form.formState.isSubmitting ? 'Enviando' : 'Enviar'}
+          {mutation.isPending ? 'Enviando' : 'Enviar'}
           <span aria-hidden="true" className="pl-2">
-            {form.formState.isSubmitting ? '...' : '→'}
+            {mutation.isPending ? '...' : '→'}
           </span>
         </span>
       </ButtonSalient>

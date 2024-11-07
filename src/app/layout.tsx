@@ -6,6 +6,7 @@ import { ThemeProvider } from './_components/theme-provider'
 
 import { SessionProvider } from 'next-auth/react'
 import './globals.css'
+import { Providers } from './app/providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -53,16 +54,18 @@ export default function RootLayout({
         strategy="afterInteractive"
       />
       <body className={inter.className}>
-        <SessionProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </SessionProvider>
+        <Providers>
+          <SessionProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </SessionProvider>
+        </Providers>
         <Toaster />
       </body>
     </html>

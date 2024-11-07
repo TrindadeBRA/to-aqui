@@ -2,7 +2,6 @@ import { PropsWithChildren } from 'react'
 import { MainSidebar } from './_components/main-sidebar'
 import { auth } from '@/services/auth'
 import { MobileNav } from './_components/mobile-nav'
-import { Providers } from './providers'
 
 export default async function Layout({ children }: PropsWithChildren) {
   const session = await auth()
@@ -12,7 +11,6 @@ export default async function Layout({ children }: PropsWithChildren) {
   }
 
   return (
-    <Providers>
       <div className="flex flex-col md:grid md:grid-cols-[16rem_1fr]">
         <div className="hidden md:block">
           <MainSidebar user={session?.user} />
@@ -24,6 +22,5 @@ export default async function Layout({ children }: PropsWithChildren) {
 
         <main className="flex-1">{children}</main>
       </div>
-    </Providers>
   )
 }

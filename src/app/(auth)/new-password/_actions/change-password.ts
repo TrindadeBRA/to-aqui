@@ -2,10 +2,12 @@
 
 import { prisma } from '@/services/database'
 import { hashSync } from 'bcrypt-ts'
+import { passwordSchema } from '../../schemas/password-validation'
 
 export async function changePassword({ email, token, newPassword }: { email: string, token: string, newPassword: string }) {
   try {
-    // Verificar se o token existe e é válido
+    passwordSchema.parse(newPassword)
+
     const passwordReset = await prisma.passwordReset.findUnique({
       where: { token },
     })
@@ -14,26 +16,21 @@ export async function changePassword({ email, token, newPassword }: { email: str
       throw new Error('Token inválido ou expirado.')
     }
 
-    // Verificar se o token pertence ao email fornecido
     if (passwordReset.email !== email) {
       throw new Error('Token não corresponde ao email fornecido.')
     }
 
-    // Verificar se o token ainda é válido
     if (new Date() > passwordReset.expiresAt) {
       throw new Error('Token expirado.')
     }
 
-    // Hash da nova senha
     const hashedPassword = hashSync(newPassword)
 
-    // Atualizar a senha do usuário
     await prisma.user.update({
       where: { email },
       data: { password: hashedPassword },
     })
 
-    // Remover o token de redefinição de senha
     await prisma.passwordReset.delete({
       where: { token },
     })

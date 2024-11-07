@@ -104,6 +104,20 @@ export function ProfileForm({ defaultValues }: ProfileFormProps) {
           </CardContent>
         </Card>
 
+        <Card>
+          <CardHeader>
+            <CardTitle>Senha</CardTitle>
+            <CardDescription>
+              Ao clicar no botão abaixo, você será direcionado ao processo seguro de redefinição de senha. Você receberá instruções detalhadas por email para criar uma nova senha.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button onClick={() => router.push('/forgot-password')}>
+              Redefinir Senha
+            </Button>
+          </CardContent>
+        </Card>
+
         <SheetFooter className="mt-auto">
           <Button disabled={form.formState.isLoading} type="submit">
             {form.formState.isSubmitting && 'Salvando...'}
