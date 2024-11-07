@@ -2,7 +2,6 @@
   "name": "to-aqui",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "lint": "next lint",
@@ -12,7 +11,7 @@
     "vercel": "vercel"
   },
   "prisma": {
-    "seed": "node prisma/seed.js"
+    "seed": "node prisma/seed.mjs"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.4.0",
