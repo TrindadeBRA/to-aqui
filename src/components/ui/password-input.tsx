@@ -19,7 +19,8 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           <Input
             ref={ref}
             type={showPassword ? 'text' : 'password'}
-            className={`text-black ${className}`}
+            className={`text-black dark:text-white ${className}`}
+            autoComplete='off'
             {...props}
           />
           <Button
@@ -30,9 +31,9 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             onClick={() => setShowPassword(!showPassword)}
           >
             {!showPassword ? (
-              <EyeOff className="size-5 text-black" />
+              <EyeOff className="size-5 text-black dark:text-white" />
             ) : (
-              <Eye className="size-5 text-black" />
+              <Eye className="size-5 text-black dark:text-white" />
             )}
           </Button>
         </div>

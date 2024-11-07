@@ -1,7 +1,7 @@
 # TODO List
 
 ## Tarefas Prioritárias
-- [ ] Corrigir bug de cores no formularios de usuarios administrativos.
+- [X] Corrigir bug de cores no formularios de usuarios administrativos.
 - [ ] Fazer uma POC da feature de Mídias Sociais, usando JIMP para gerar imagens. (https://chatgpt.com/share/672cd45e-4c74-8002-becd-4327f71813cf)
 - [ ] Criar um diretorio e organizar os envios de email. (Conta criarda, esqueci a senha).
 - [ ] Pensar na entidade de "Estabelecimentos".

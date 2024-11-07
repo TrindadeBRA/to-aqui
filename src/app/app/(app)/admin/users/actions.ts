@@ -1,9 +1,10 @@
 'use server'
 
+import { passwordSchema } from "@/app/(auth)/schemas/password-validation"
 import { prisma } from "@/services/database"
 import { createStripeCustomer } from "@/services/stripe"
 import { Role } from "@prisma/client"
-import * as bcrypt from 'bcrypt-ts'
+import { hashSync } from "bcrypt-ts"
 import { z } from 'zod'
 
 type User = {
@@ -25,6 +26,7 @@ type UpdateUserData = {
     name: string
     email: string
     role: string
+    password?: string
 }
 
 export async function getUsers(
@@ -100,13 +102,7 @@ const createUserSchema = z.object({
         .min(1, 'O email é obrigatório')
         .email('Formato de email inválido')
         .max(150, 'O email deve ter no máximo 150 caracteres'),
-    password: z.string()
-        .min(6, 'A senha deve ter pelo menos 6 caracteres')
-        .max(50, 'A senha deve ter no máximo 50 caracteres')
-        .regex(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
-            'A senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número'
-        ),
+    password: passwordSchema,
     role: z.enum(['ADMIN', 'USER'], {
         errorMap: () => ({ message: 'Papel de usuário inválido' })
     })
@@ -114,10 +110,8 @@ const createUserSchema = z.object({
 
 export async function createUser(data: CreateUserData) {
     try {
-        // Valida os dados usando o schema
         const validatedData = createUserSchema.parse(data)
 
-        // Verifica se já existe um usuário com este email
         const existingUser = await prisma.user.findUnique({
             where: {
                 email: validatedData.email,
@@ -128,7 +122,7 @@ export async function createUser(data: CreateUserData) {
             throw new Error('Este email já está em uso')
         }
 
-        const hashedPassword = await bcrypt.hash(validatedData.password, 10)
+        const hashedPassword = hashSync(validatedData.password);
 
         const user = await prisma.user.create({
             data: {
@@ -183,13 +177,19 @@ export async function updateUser(data: UpdateUserData) {
             throw new Error('Este email já está em uso')
         }
 
+        const userData: any = {
+            name: validatedData.name,
+            email: validatedData.email,
+            role: validatedData.role as Role,
+        }
+
+        if (data.password) {
+            userData.password = hashSync(data.password)
+        }
+
         const user = await prisma.user.update({
             where: { id },
-            data: {
-                name: validatedData.name,
-                email: validatedData.email,
-                role: validatedData.role as Role,
-            },
+            data: userData
         })
 
         return { success: true, user }
