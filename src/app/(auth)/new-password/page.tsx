@@ -3,6 +3,7 @@ import { SlimLayout } from '@/components/salient/components/SlimLayout'
 import { type Metadata } from 'next'
 import Link from 'next/link'
 import { NewPasswordForm } from './_components/new-password-form'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: 'Defina sua nova senha',
@@ -22,7 +23,9 @@ export default function ForgotPassword() {
       <p className="mt-2 text-sm text-gray-700">
         Digite sua nova senha abaixo para redefinir o acesso à sua conta.
       </p>
-      <NewPasswordForm />
+      <Suspense fallback={<div>Carregando...</div>}>
+        <NewPasswordForm />
+      </Suspense>
     </SlimLayout>
   )
 }
