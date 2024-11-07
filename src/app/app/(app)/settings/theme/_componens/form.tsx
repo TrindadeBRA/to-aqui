@@ -39,8 +39,8 @@ export function ThemeForm() {
     theme.setTheme(data.theme as 'light' | 'dark')
 
     toast({
-      title: 'Success',
-      description: 'Your profile has been updated successfully.',
+      title: 'Tema atualizado',
+      description: `O tema foi alterado para o modo ${data.theme === 'light' ? 'claro' : 'escuro'}.`,
     })
   })
 
