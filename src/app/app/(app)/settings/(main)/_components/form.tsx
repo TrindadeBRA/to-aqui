@@ -112,7 +112,7 @@ export function ProfileForm({ defaultValues }: ProfileFormProps) {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button onClick={() => router.push('/forgot-password')}>
+            <Button type="button" onClick={() => router.push('/forgot-password')}>
               Redefinir Senha
             </Button>
           </CardContent>
