@@ -2,21 +2,21 @@
 
 import {
   DashboardSidebar,
+  DashboardSidebarFooter,
   DashboardSidebarHeader,
   DashboardSidebarMain,
   DashboardSidebarNav,
-  DashboardSidebarNavMain,
-  DashboardSidebarNavLink,
   DashboardSidebarNavHeader,
   DashboardSidebarNavHeaderTitle,
-  DashboardSidebarFooter,
+  DashboardSidebarNavLink,
+  DashboardSidebarNavMain,
 } from '@/components/dashboard/sidebar'
-import { usePathname } from 'next/navigation'
-import { HomeIcon, MixerVerticalIcon } from '@radix-ui/react-icons'
-import { UserDropdown } from './user-dropdown'
 import { Logo } from '@/components/logo'
+import { HomeIcon, MixerVerticalIcon } from '@radix-ui/react-icons'
+import { BookOpenText, ImagesIcon, QrCodeIcon, ShieldIcon, StoreIcon, UsersIcon } from 'lucide-react'
 import { Session } from 'next-auth'
-import { CheckCheckIcon, StoreIcon, ShieldIcon, UsersIcon, AppWindow, ImagesIcon, LightbulbIcon } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import { UserDropdown } from './user-dropdown'
 
 type MainSidebarProps = {
   user: Session['user']
@@ -55,23 +55,6 @@ export function MainSidebar({ user }: MainSidebarProps) {
                       Usuários
                     </DashboardSidebarNavLink>
 
-                    <DashboardSidebarNavLink
-                      href="/app/admin/platforms"
-                      active={pathname.startsWith('/app/admin/platforms')}
-                    >
-                      <AppWindow className="size-4 mr-3" />
-                      Plataformas
-                    </DashboardSidebarNavLink>
-
-                    <DashboardSidebarNavLink
-                      href="/app/admin/platforms"
-                      active={pathname.startsWith('/app/admin/platforms')}
-                    >
-                      <ImagesIcon className="size-4 mr-3" />
-                      Mídias
-                    </DashboardSidebarNavLink>
-
-
                   </div>
                   <hr className='mt-2'/>
               </div>
@@ -86,19 +69,44 @@ export function MainSidebar({ user }: MainSidebarProps) {
               Tarefas
             </DashboardSidebarNavLink> */}
             <DashboardSidebarNavLink
-              href="/app/establishments"
+              href="/app"
               active={isActive('/app/establishments')}
+              className="opacity-50 cursor-not-allowed"
             >
               <StoreIcon className="size-4 mr-3" />
               Estabelecimentos
             </DashboardSidebarNavLink>
             <DashboardSidebarNavLink
+              href="/app"
+              active={isActive('/app/menus')}
+              className="opacity-50 cursor-not-allowed"
+            >
+              <BookOpenText className="size-4 mr-3" />
+              Cardápios
+            </DashboardSidebarNavLink>
+            <DashboardSidebarNavLink
+              href="/app"
+              active={isActive('/app/establishments')}
+              className="opacity-50 cursor-not-allowed"
+            >
+              <ImagesIcon className="size-4 mr-3" />
+              Midias sociais
+            </DashboardSidebarNavLink>
+            <DashboardSidebarNavLink
+              href="/app"
+              active={isActive('/app/social-medias')}
+              className="opacity-50 cursor-not-allowed"
+            >
+              <QrCodeIcon className="size-4 mr-3" />
+              Qr Codes
+            </DashboardSidebarNavLink>
+            {/* <DashboardSidebarNavLink
               href="/app/tools-recommendations"
               active={isActive('/app/tools-recommendations')}
             >
               <LightbulbIcon className="size-4 mr-3" />
               Recomendamos
-            </DashboardSidebarNavLink>
+            </DashboardSidebarNavLink> */}
             <DashboardSidebarNavLink
               href="/app/settings"
               active={isActive('/app/settings')}
@@ -118,6 +126,9 @@ export function MainSidebar({ user }: MainSidebarProps) {
           <DashboardSidebarNavMain>
             <DashboardSidebarNavLink href="/" className='text-xs'>
               Precisa de ajuda?
+            </DashboardSidebarNavLink>
+            <DashboardSidebarNavLink href="/app/settings/billing" className='text-xs'>
+              Meu plano
             </DashboardSidebarNavLink>
             <DashboardSidebarNavLink href="/" className='text-xs'>Site</DashboardSidebarNavLink>
           </DashboardSidebarNavMain>

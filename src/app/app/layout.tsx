@@ -11,7 +11,7 @@ export default async function Layout({ children }: PropsWithChildren) {
   }
 
   return (
-      <div className="flex flex-col md:grid md:grid-cols-[16rem_1fr]">
+      <div className="flex flex-col md:grid md:grid-cols-[17rem_1fr]">
         <div className="hidden md:block">
           <MainSidebar user={session?.user} />
         </div>
