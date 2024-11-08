@@ -1,11 +1,16 @@
-import { DashboardPage, DashboardPageMain } from '@/components/dashboard/page'
+import { DashboardPage, DashboardPageMain } from '@/components/dashboard/page';
+import SimpleImage from '../_components/simple-image';
 
 export default async function Page() {
+
+
+  // Chamada de processamento de imagem
+
   return (
     <DashboardPage>
       <DashboardPageMain>
-        <h1 className="text-2xl font-bold">Olá, Mundo!</h1>
+        <SimpleImage />
       </DashboardPageMain>
     </DashboardPage>
-  )
+  );
 }
