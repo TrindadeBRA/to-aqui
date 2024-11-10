@@ -20,9 +20,10 @@
         - **CEP**: Código postal.
         - **Latitude**: Latitude do local.
         - **Longitude**: Longitude do local.
-    - **Telefone**: Número de contato.
     - **Instagram**: Handle do Instagram (@).
     - **Telefone (Formatado)**: Número de telefone com máscara e formatação.
+    - **Pet Friedly**
+    - **Trabalhe Conosco / Vagas / Guardar CVs**
 - [ ] Procurar referencias de como fazer o Formulario em Steps e o Website apartir do estabelecimento.
 
 
